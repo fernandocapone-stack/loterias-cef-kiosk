@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Clock } from 'lucide-react';
-import KioskButton from '../primitives/KioskButton';
 import { useSession } from '../../store/sessionStore';
 
 interface Props {
@@ -34,13 +33,31 @@ export default function IdleModal({ seconds, onStay }: Props) {
         <p className="text-kiosk-sm text-muted mb-6">
           Volto à tela inicial em {seconds}s
         </p>
-        <div className="space-y-2">
-          <KioskButton variant="primary" size="lg" fullWidth onClick={onStay}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={onStay}
+            style={{
+              height: 80, width: '100%',
+              backgroundColor: '#0066B3', color: '#FFFFFF',
+              fontSize: 20, fontWeight: 600,
+              borderRadius: 8, border: 'none', cursor: 'pointer',
+            }}
+          >
             Estou aqui
-          </KioskButton>
-          <KioskButton variant="ghost" size="md" fullWidth onClick={cancel}>
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={cancel}
+            style={{
+              height: 80, width: '100%',
+              backgroundColor: '#004B8B', color: '#FFFFFF',
+              fontSize: 20, fontWeight: 600,
+              borderRadius: 8, border: 'none', cursor: 'pointer',
+            }}
+          >
             Cancelar
-          </KioskButton>
+          </motion.button>
         </div>
       </motion.div>
     </div>

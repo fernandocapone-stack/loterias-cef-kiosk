@@ -59,13 +59,13 @@ export default function CartClearWarningModal({ targetModule, onConfirm, onCance
         </p>
 
         {/* Botões */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={onConfirm}
             style={{
-              height: 72, width: '100%',
-              backgroundColor: '#00AB67', color: '#FFFFFF',
+              height: 80, width: '100%',
+              backgroundColor: '#0066B3', color: '#FFFFFF',
               fontSize: 20, fontWeight: 600,
               borderRadius: 8, border: 'none', cursor: 'pointer',
             }}
@@ -76,10 +76,10 @@ export default function CartClearWarningModal({ targetModule, onConfirm, onCance
             whileTap={{ scale: 0.97 }}
             onClick={onCancel}
             style={{
-              height: 60, width: '100%',
-              backgroundColor: 'transparent', color: '#6B7280',
-              fontSize: 18, fontWeight: 500,
-              borderRadius: 8, border: '1.5px solid #D0E0E3', cursor: 'pointer',
+              height: 80, width: '100%',
+              backgroundColor: '#004B8B', color: '#FFFFFF',
+              fontSize: 20, fontWeight: 600,
+              borderRadius: 8, border: 'none', cursor: 'pointer',
             }}
           >
             Cancelar
