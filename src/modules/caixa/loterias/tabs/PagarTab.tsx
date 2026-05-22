@@ -15,12 +15,14 @@ export default function PagarTab() {
   const tiles = [
     {
       title: 'Escanear',
-      desc: 'Leia o código de barras.',
+      desc: 'Escaneie sua conta.',
+      imagem: '/images/servicos/pagarconta-escanear.png',
       onClick: () => navigate('/caixa/conta/escanear'),
     },
     {
       title: 'Digitar',
-      desc: 'Digite o código manualmente.',
+      desc: 'Digite os numeros do boleto',
+      imagem: '/images/servicos/pagarconta-digitar.png',
       onClick: () => navigate('/caixa/conta/digitar'),
     },
   ];
@@ -62,15 +64,40 @@ export default function PagarTab() {
               transition={{ delay: idx * 0.06, duration: 0.2 }}
               whileTap={{ scale: 0.985 }}
               onClick={tile.onClick}
-              className="flex-1 flex flex-col rounded-lg text-left bg-white"
-              style={{ borderRadius: 8, padding: '40px 24px', gap: 16, justifyContent: 'flex-end' }}
+              className="flex-1 rounded-lg text-left"
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: 8,
+                padding: '40px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                overflow: 'hidden',
+              }}
             >
-              <span className="font-semibold" style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}>
-                {tile.title}
-              </span>
-              <span className="font-normal" style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%' }}>
-                {tile.desc}
-              </span>
+              {/* Zona da imagem — círculo + ilustração 3D */}
+              <div style={{ position: 'relative', width: 448, height: 448, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
+                {tile.imagem && (
+                  <img
+                    src={tile.imagem}
+                    alt=""
+                    draggable={false}
+                    style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
+                  />
+                )}
+              </div>
+
+              {/* Texto */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'stretch' }}>
+                <span className="font-semibold" style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}>
+                  {tile.title}
+                </span>
+                <span className="font-normal" style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%' }}>
+                  {tile.desc}
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>

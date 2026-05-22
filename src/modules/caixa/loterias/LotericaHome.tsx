@@ -22,21 +22,25 @@ export default function LotericaHome() {
     {
       title: 'Fazer Apostas',
       desc: 'Loterias da Caixa.',
+      imagem: '/images/servicos/loterica-apostas.png',
       onClick: () => navigate('/caixa/loterias/apostar'),
     },
     {
       title: 'Pagar Conta',
       desc: 'Contas e boletos.',
+      imagem: '/images/servicos/loterica-pagarconta-62f038.png',
       onClick: () => navigate('/caixa/loterias/pagar'),
     },
     {
       title: 'Recarga Celular',
       desc: 'Recarregue seu celular.',
+      imagem: '/images/servicos/loterica-recarga.png',
       onClick: () => navigate('/caixa/loterias/recarregar'),
     },
     {
       title: 'Ver Resultados',
       desc: 'Sorteios recentes',
+      imagem: '/images/servicos/loterica-resultados.png',
       onClick: () => navigate('/caixa/loterias/resultados'),
     },
   ];
@@ -93,27 +97,40 @@ export default function LotericaHome() {
               transition={{ delay: idx * 0.05, duration: 0.2 }}
               whileTap={{ scale: 0.985 }}
               onClick={tile.onClick}
-              className="flex-1 flex flex-col rounded-lg text-left"
+              className="flex-1 rounded-lg text-left"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: 8,
                 padding: '40px 24px',
-                gap: 16,
-                justifyContent: 'flex-end',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'stretch',
+                overflow: 'hidden',
               }}
             >
-              <span
-                className="font-semibold"
-                style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}
-              >
-                {tile.title}
-              </span>
-              <span
-                className="font-normal"
-                style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%' }}
-              >
-                {tile.desc}
-              </span>
+              {/* Zona da imagem — círculo + ilustração 3D */}
+              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
+                {tile.imagem && (
+                  <img
+                    src={tile.imagem}
+                    alt=""
+                    draggable={false}
+                    style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
+                  />
+                )}
+              </div>
+
+              {/* Texto */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 32 }}>
+                <span className="font-semibold" style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}>
+                  {tile.title}
+                </span>
+                <span className="font-normal" style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%' }}>
+                  {tile.desc}
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>
