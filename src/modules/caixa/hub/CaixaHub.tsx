@@ -16,22 +16,22 @@ export default function CaixaHub() {
   const tiles = [
     {
       title: 'Para você',
-      desc: 'Produtos e serviços\npara pessoa física.',
-      imagem: undefined as string | undefined,
+      desc: 'Produtos e serviços \npara pessoa física.',
+      imagem: '/images/servicos/caixa-para-voce.png',
       disabled: true,
       onClick: () => {},
     },
     {
-      title: 'Para a sua empresa',
-      desc: 'Soluções para\npessoa jurídica.',
-      imagem: undefined as string | undefined,
+      title: 'Para sua empresa',
+      desc: 'Soluções para \npessoa jurídica.',
+      imagem: '/images/servicos/caixa-empresa.png',
       disabled: true,
       onClick: () => {},
     },
     {
       title: 'Poder público',
-      desc: 'Serviços para\nórgãos públicos.',
-      imagem: undefined as string | undefined,
+      desc: 'Serviços para \norgãos públicos',
+      imagem: '/images/servicos/caixa-poder-publico.png',
       disabled: true,
       onClick: () => {},
     },
@@ -54,7 +54,7 @@ export default function CaixaHub() {
 
         <div className="flex-1 flex items-center justify-center">
           <span className="text-white font-semibold text-center" style={{ fontSize: 44, lineHeight: '120%' }}>
-            Caixa
+            Serviços da Caixa
           </span>
         </div>
 
