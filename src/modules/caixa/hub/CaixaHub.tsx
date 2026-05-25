@@ -3,55 +3,58 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 
 /**
- * 3. Produtos Caixa — Figma (250:1644), canvas 1440×900.
+ * Caixa — canvas 1440×900.
  *
- * Same layout as Escolha o Serviço but with:
- *  - Title: "Produtos da Caixa"
- *  - 2 tiles: "Lotérica" + "Outros Serviços"
+ * 3 tiles:
+ *  - Para você         → /caixa/para-voce    (em breve)
+ *  - Para a sua empresa → /caixa/empresa      (em breve)
+ *  - Poder público     → /caixa/poder-publico (em breve)
  */
 export default function CaixaHub() {
   const navigate = useNavigate();
 
   const tiles = [
     {
-      title: 'Outros Serviços',
-      desc: 'Serviços bancários da Caixa.',
+      title: 'Para você',
+      desc: 'Produtos e serviços\npara pessoa física.',
+      imagem: undefined as string | undefined,
       disabled: true,
-      onClick: () => navigate('/caixa/outros'),
+      onClick: () => {},
+    },
+    {
+      title: 'Para a sua empresa',
+      desc: 'Soluções para\npessoa jurídica.',
+      imagem: undefined as string | undefined,
+      disabled: true,
+      onClick: () => {},
+    },
+    {
+      title: 'Poder público',
+      desc: 'Serviços para\nórgãos públicos.',
+      imagem: undefined as string | undefined,
+      disabled: true,
+      onClick: () => {},
     },
   ];
 
   return (
-    <div
-      className="h-full w-full flex flex-col overflow-hidden"
-      style={{ backgroundColor: '#EFF5F9' }}
-    >
+    <div className="h-full w-full flex flex-col overflow-hidden" style={{ backgroundColor: '#EFF5F9' }}>
+
       {/* ── Header ── */}
-      <div
-        className="flex items-center shrink-0"
-        style={{ gap: 24, padding: 24, backgroundColor: '#0066B3' }}
-      >
+      <div className="flex items-center shrink-0" style={{ gap: 24, padding: 24, backgroundColor: '#0066B3' }}>
         <motion.button
           whileTap={{ scale: 0.96 }}
           onClick={() => navigate('/escolha')}
           className="flex items-center justify-center rounded-lg shrink-0"
-          style={{
-            width: 280, height: 80,
-            backgroundColor: '#004B8B',
-            borderRadius: 8,
-            gap: 8,
-            padding: '12px 24px 12px 16px',
-          }}
+          style={{ width: 280, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
         >
           <ArrowLeft style={{ width: 48, height: 48, color: '#F39200', flexShrink: 0 }} strokeWidth={2} />
-          <span className="text-white" style={{ fontSize: 20, fontWeight: 500, lineHeight: '120%' }}>
-            Voltar
-          </span>
+          <span className="text-white" style={{ fontSize: 20, fontWeight: 500, lineHeight: '120%' }}>Voltar</span>
         </motion.button>
 
         <div className="flex-1 flex items-center justify-center">
           <span className="text-white font-semibold text-center" style={{ fontSize: 44, lineHeight: '120%' }}>
-            Produtos da Caixa
+            Caixa
           </span>
         </div>
 
@@ -59,10 +62,7 @@ export default function CaixaHub() {
       </div>
 
       {/* ── Content ── */}
-      <div
-        className="flex flex-col flex-1"
-        style={{ padding: 24, gap: 32 }}
-      >
+      <div className="flex flex-col flex-1" style={{ padding: 24, gap: 32 }}>
         <div className="flex flex-1" style={{ gap: 24 }}>
           {tiles.map((tile, idx) => (
             <motion.button
@@ -73,33 +73,46 @@ export default function CaixaHub() {
               whileTap={tile.disabled ? {} : { scale: 0.985 }}
               disabled={tile.disabled}
               onClick={tile.disabled ? undefined : tile.onClick}
-              className="flex-1 flex flex-col rounded-lg text-left"
+              className="flex-1 rounded-lg text-left"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: 8,
-                padding: '40px 24px',
-                gap: 16,
-                justifyContent: 'flex-end',
                 opacity: tile.disabled ? 0.5 : 1,
                 cursor: tile.disabled ? 'default' : 'pointer',
+                boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'stretch',
+                padding: '40px 24px',
+                overflow: 'hidden',
               }}
             >
-              <span
-                className="font-semibold leading-tight"
-                style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}
-              >
-                {tile.title}
-              </span>
-              <span
-                className="font-normal"
-                style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%' }}
-              >
-                {tile.desc}
-              </span>
+              {/* Zona da imagem — círculo + ilustração 3D */}
+              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
+                {tile.imagem && (
+                  <img
+                    src={tile.imagem}
+                    alt=""
+                    draggable={false}
+                    style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
+                  />
+                )}
+              </div>
+
+              {/* Texto */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 32 }}>
+                <span className="font-semibold" style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}>
+                  {tile.title}
+                </span>
+                <span className="font-normal" style={{ fontSize: 24, color: '#6B7280', lineHeight: '150%', whiteSpace: 'pre-line' }}>
+                  {tile.desc}
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>
-
       </div>
     </div>
   );

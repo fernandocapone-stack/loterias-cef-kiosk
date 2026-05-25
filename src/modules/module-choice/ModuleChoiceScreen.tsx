@@ -79,7 +79,7 @@ export default function ModuleChoiceScreen() {
       desc:     'Serviços e produtos\nda Caixa em Geral.',
       module:   null,
       path:     '/caixa',
-      disabled: true,
+      disabled: false,
       imagem:   '/images/servicos/caixa.png',
     },
   ];
@@ -137,9 +137,11 @@ export default function ModuleChoiceScreen() {
               whileTap={tile.disabled ? {} : { scale: 0.985 }}
               disabled={tile.disabled}
               onClick={
-                tile.disabled || !tile.module
+                tile.disabled
                   ? undefined
-                  : () => handleNavigate(tile.path, tile.module!)
+                  : tile.module
+                    ? () => handleNavigate(tile.path, tile.module!)
+                    : () => navigate(tile.path)
               }
               className="flex-1 rounded-lg text-left"
               style={{
