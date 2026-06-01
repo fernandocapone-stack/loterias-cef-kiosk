@@ -462,8 +462,8 @@ export default function PickNumbers() {
               {isBolao ? 'Definir Cotas' : 'Adicionar Aposta'}
             </motion.button>
 
-            {/* Botão: Confirmar e Pagar */}
-            <motion.button
+            {/* Botão: Confirmar e Pagar — oculto em modo bolão (CTA acima já leva à definição de cotas) */}
+            {!isBolao && <motion.button
               whileTap={{ scale: 0.97 }}
               disabled={!enough}
               onClick={confirmarEPagar}
@@ -476,8 +476,8 @@ export default function PickNumbers() {
                 borderRadius: 8, opacity: enough ? 1 : 0.6,
               }}
             >
-              {isBolao ? 'Definir Cotas' : 'Confirmar e Pagar'}
-            </motion.button>
+              Confirmar e Pagar
+            </motion.button>}
           </div>
 
           {/* Info card */}
