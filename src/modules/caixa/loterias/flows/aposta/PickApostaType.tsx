@@ -33,14 +33,12 @@ export default function PickApostaType() {
       id: 'individual',
       title: 'Aposta Individual',
       desc: 'Você joga sozinho e o comprovante fica em seu nome.',
-      imagem: '/images/servicos/loterica-aposta-individual.png',
       onClick: goIndividual,
     },
     {
       id: 'bolao',
       title: 'Bolão',
       desc: 'Divida a aposta em cotas com mais pessoas.',
-      imagem: '/images/servicos/loterica-aposta-bolao.png',
       onClick: goBolao,
     },
   ];
@@ -143,15 +141,9 @@ export default function PickApostaType() {
                 boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.09)',
               }}
             >
-              {/* Zona da imagem — círculo + ilustração 3D (mesmo padrão do LotericaHome) */}
+              {/* Zona do círculo (placeholder até receber a ilustração final) */}
               <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 260 }}>
-                <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
-                <img
-                  src={opt.imagem}
-                  alt=""
-                  draggable={false}
-                  style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
-                />
+                <div style={{ width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
               </div>
 
               {/* Texto */}
