@@ -92,7 +92,7 @@ export default function RecarregarTab() {
             whileTap={{ scale: 0.96 }}
             onClick={() => navigate('/caixa/loterias')}
             className="flex items-center justify-center rounded-lg shrink-0"
-            style={{ width: 200, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
+            style={{ width: 280, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
           >
             <ArrowLeft style={{ width: 48, height: 48, color: '#F39200', flexShrink: 0 }} strokeWidth={2} />
             <span className="text-white" style={{ fontSize: 20, fontWeight: 500, lineHeight: '120%' }}>Voltar</span>
@@ -104,7 +104,7 @@ export default function RecarregarTab() {
             </span>
           </div>
 
-          <div style={{ width: 200, height: 80, flexShrink: 0 }} />
+          <div style={{ width: 280, height: 80, flexShrink: 0 }} />
         </div>
 
         {/* Body */}
@@ -249,7 +249,7 @@ export default function RecarregarTab() {
           whileTap={{ scale: 0.96 }}
           onClick={() => setStep('numero')}
           className="flex items-center justify-center rounded-lg shrink-0"
-          style={{ width: 200, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
+          style={{ width: 280, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
         >
           <ArrowLeft style={{ width: 48, height: 48, color: '#F39200', flexShrink: 0 }} strokeWidth={2} />
           <span className="text-white" style={{ fontSize: 20, fontWeight: 500, lineHeight: '120%' }}>Voltar</span>
@@ -264,7 +264,7 @@ export default function RecarregarTab() {
         {/* Slot direito: operadora + número */}
         <div
           className="flex flex-col items-end justify-center shrink-0"
-          style={{ width: 200, height: 80, padding: '0 4px' }}
+          style={{ width: 280, height: 80, padding: '0 4px' }}
         >
           {operadora && (
             <span style={{ fontSize: 20, fontWeight: 400, color: 'rgba(255,255,255,0.7)', lineHeight: '150%' }}>

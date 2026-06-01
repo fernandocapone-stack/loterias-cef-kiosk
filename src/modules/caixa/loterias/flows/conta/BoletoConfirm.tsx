@@ -81,13 +81,13 @@ export default function BoletoConfirm() {
     return (
       <div className="flex flex-col h-full w-full" style={{ backgroundColor: '#EFF5F9' }}>
         <div className="flex items-center shrink-0" style={{ gap: 24, padding: 24, backgroundColor: '#0066B3' }}>
-          <div style={{ width: 200, height: 80, flexShrink: 0 }} />
+          <div style={{ width: 280, height: 80, flexShrink: 0 }} />
           <div className="flex-1 flex items-center justify-center">
             <span className="font-semibold text-center" style={{ fontSize: 44, color: '#FFFFFF', lineHeight: '120%' }}>
               {headerTitle}
             </span>
           </div>
-          <div style={{ width: 200, height: 80, flexShrink: 0 }} />
+          <div style={{ width: 280, height: 80, flexShrink: 0 }} />
         </div>
         <div className="flex-1 flex flex-col items-center justify-center" style={{ gap: 24 }}>
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
@@ -111,7 +111,7 @@ export default function BoletoConfirm() {
           whileTap={{ scale: 0.96 }}
           onClick={() => navigate(backRoute)}
           className="flex items-center justify-center rounded-lg shrink-0"
-          style={{ width: 200, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
+          style={{ width: 280, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
         >
           <ArrowLeft style={{ width: 48, height: 48, color: '#F39200', flexShrink: 0 }} strokeWidth={2} />
           <span className="text-white" style={{ fontSize: 20, fontWeight: 500, lineHeight: '120%' }}>Voltar</span>
@@ -123,7 +123,7 @@ export default function BoletoConfirm() {
           </span>
         </div>
 
-        <div style={{ width: 200, height: 80, flexShrink: 0 }} />
+        <div style={{ width: 280, height: 80, flexShrink: 0 }} />
       </div>
 
       {/* ── Body ── */}
