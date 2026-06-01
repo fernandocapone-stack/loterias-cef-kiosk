@@ -337,53 +337,6 @@ export default function PickNumbers() {
           {/* ── Cards scrolláveis ── */}
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 16 }}>
 
-          {/* Info card */}
-          <div
-            className="rounded-lg bg-white shrink-0"
-            style={{ padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: 24, borderRadius: 8 }}
-          >
-            {/* Concurso */}
-            <div className="flex items-center" style={{ alignSelf: 'stretch' }}>
-              <span style={{ fontSize: 24, lineHeight: '120%', color: '#6B7280' }}>
-                Concurso <strong style={{ fontWeight: 700 }}>{m.concursoAtual}</strong>
-              </span>
-            </div>
-
-            {/* Prêmio estimado */}
-            <div className="flex flex-col">
-              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
-                Prêmio estimado
-              </span>
-              <span className="font-bold" style={{ fontSize: 24, lineHeight: '120%', color: '#00AB67' }}>
-                {brl(m.premioEstimado)}
-              </span>
-            </div>
-
-            <Divider />
-
-            {/* Encerramento */}
-            <div className="flex flex-col">
-              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
-                Encerramento das Apostas
-              </span>
-              <span className="font-bold" style={{ fontSize: 20, lineHeight: '150%', color: '#6B7280' }}>
-                {m.proximoSorteio}
-              </span>
-            </div>
-
-            <Divider />
-
-            {/* Próximo concurso */}
-            <div className="flex flex-col">
-              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
-                Próximo Concurso
-              </span>
-              <span className="font-bold" style={{ fontSize: 20, lineHeight: '150%', color: '#6B7280' }}>
-                {m.proximoSorteio}
-              </span>
-            </div>
-          </div>
-
           {/* Resumo card — com os CTAs dentro, igual ao Figma */}
           <div
             className="rounded-lg bg-white shrink-0"
@@ -492,6 +445,53 @@ export default function PickNumbers() {
             >
               Confirmar e Pagar
             </motion.button>
+          </div>
+
+          {/* Info card */}
+          <div
+            className="rounded-lg bg-white shrink-0"
+            style={{ padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: 24, borderRadius: 8 }}
+          >
+            {/* Concurso */}
+            <div className="flex items-center" style={{ alignSelf: 'stretch' }}>
+              <span style={{ fontSize: 24, lineHeight: '120%', color: '#6B7280' }}>
+                Concurso <strong style={{ fontWeight: 700 }}>{m.concursoAtual}</strong>
+              </span>
+            </div>
+
+            {/* Prêmio estimado */}
+            <div className="flex flex-col">
+              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
+                Prêmio estimado
+              </span>
+              <span className="font-bold" style={{ fontSize: 24, lineHeight: '120%', color: '#00AB67' }}>
+                {brl(m.premioEstimado)}
+              </span>
+            </div>
+
+            <Divider />
+
+            {/* Encerramento */}
+            <div className="flex flex-col">
+              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
+                Encerramento das Apostas
+              </span>
+              <span className="font-bold" style={{ fontSize: 20, lineHeight: '150%', color: '#6B7280' }}>
+                {m.proximoSorteio}
+              </span>
+            </div>
+
+            <Divider />
+
+            {/* Próximo concurso */}
+            <div className="flex flex-col">
+              <span className="font-medium uppercase" style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', opacity: 0.7 }}>
+                Próximo Concurso
+              </span>
+              <span className="font-bold" style={{ fontSize: 20, lineHeight: '150%', color: '#6B7280' }}>
+                {m.proximoSorteio}
+              </span>
+            </div>
           </div>
 
           </div>{/* fim dos cards scrolláveis */}
