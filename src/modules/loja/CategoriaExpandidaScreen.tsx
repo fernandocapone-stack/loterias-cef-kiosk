@@ -87,7 +87,7 @@ function ProductCard({ produto }: { produto: Produto }) {
           padding: '32px 24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 20,
+          gap: 12,
         }}
       >
         {/* Nome + preço */}
@@ -104,6 +104,9 @@ function ProductCard({ produto }: { produto: Produto }) {
             {brl(produto.preco)}
           </span>
         </div>
+
+        {/* Espaçador — empurra stepper + botão para o fundo */}
+        <div style={{ flex: 1 }} />
 
         {/* Stepper — bg #EFF5F9 */}
         <div
@@ -153,8 +156,7 @@ function ProductCard({ produto }: { produto: Produto }) {
           </motion.button>
         </div>
 
-        {/* Botão Adicionar — empurrado para o fundo */}
-        <div style={{ flex: 1 }} />
+        {/* Botão Adicionar */}
         <motion.button
           whileTap={{ scale: 0.97 }}
           onClick={handleAdd}
