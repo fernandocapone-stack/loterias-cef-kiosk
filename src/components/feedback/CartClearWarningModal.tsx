@@ -65,7 +65,7 @@ export default function CartClearWarningModal({ targetModule, onConfirm, onCance
             onClick={onConfirm}
             style={{
               height: 80, width: '100%',
-              backgroundColor: '#0066B3', color: '#FFFFFF',
+              backgroundColor: '#F39200', color: '#FFFFFF',
               fontSize: 20, fontWeight: 600,
               borderRadius: 8, border: 'none', cursor: 'pointer',
             }}
@@ -77,7 +77,7 @@ export default function CartClearWarningModal({ targetModule, onConfirm, onCance
             onClick={onCancel}
             style={{
               height: 80, width: '100%',
-              backgroundColor: '#004B8B', color: '#FFFFFF',
+              backgroundColor: '#9CA3AF', color: '#FFFFFF',
               fontSize: 20, fontWeight: 600,
               borderRadius: 8, border: 'none', cursor: 'pointer',
             }}
