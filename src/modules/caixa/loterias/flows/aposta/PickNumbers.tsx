@@ -195,25 +195,12 @@ export default function PickNumbers() {
           <span className="text-white" style={{ fontSize: 20, fontWeight: 500 }}>Voltar</span>
         </motion.button>
 
-        {/* Título: Símbolo + Nome (+ badge de bolão quando aplicável) */}
+        {/* Título: Símbolo + Nome (prefixado com "Bolão ·" em modo bolão) */}
         <div className="flex-1 flex items-center justify-center" style={{ gap: 24 }}>
           <LotteryLogo modalidade={{ ...m, cor: '#FFFFFF' }} size={48} />
           <span className="font-semibold" style={{ fontSize: 44, color: '#FFFFFF', lineHeight: '120%' }}>
-            {m.nome}
+            {isBolao ? `Bolão · ${m.nome}` : m.nome}
           </span>
-          {isBolao && (
-            <span
-              className="flex items-center"
-              style={{
-                gap: 8, padding: '8px 16px',
-                backgroundColor: 'rgba(255,255,255,0.18)',
-                borderRadius: 999,
-              }}
-            >
-              <Users style={{ width: 24, height: 24, color: '#FFFFFF' }} strokeWidth={2} />
-              <span style={{ fontSize: 20, fontWeight: 600, color: '#FFFFFF' }}>Bolão</span>
-            </span>
-          )}
         </div>
 
         {/* Carrinho */}
