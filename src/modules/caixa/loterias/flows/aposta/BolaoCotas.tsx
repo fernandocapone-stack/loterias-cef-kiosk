@@ -229,7 +229,7 @@ export default function BolaoCotas() {
               onClick={adicionarAoCarrinho}
               className="flex items-center justify-center font-semibold rounded-lg shrink-0"
               style={{
-                height: 64, gap: 16, padding: '0 24px',
+                height: 80, gap: 16, padding: '0 24px',
                 fontSize: 20, lineHeight: '20px', color: '#FFFFFF',
                 backgroundColor: '#00AB67', borderRadius: 8,
               }}

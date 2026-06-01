@@ -448,7 +448,7 @@ export default function PickNumbers() {
               onClick={adicionarAposta}
               className="flex items-center justify-center font-semibold rounded-lg shrink-0 transition-opacity"
               style={{
-                height: 64, gap: 16, padding: '0 24px',
+                height: 80, gap: 16, padding: '0 24px',
                 fontSize: 20, lineHeight: '20px', color: '#FFFFFF',
                 backgroundColor: '#00AB67', borderRadius: 8,
                 opacity: enough ? 1 : 0.4,
@@ -469,7 +469,7 @@ export default function PickNumbers() {
               onClick={confirmarEPagar}
               className="flex items-center justify-center font-semibold rounded-lg shrink-0 transition-opacity"
               style={{
-                height: 64, padding: '0 24px',
+                height: 80, padding: '0 24px',
                 fontSize: 20, lineHeight: '20px',
                 color: enough ? '#FFFFFF' : '#9CA3AF',
                 backgroundColor: enough ? '#005DA4' : '#D0E0E3',
