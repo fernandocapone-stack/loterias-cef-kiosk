@@ -391,7 +391,7 @@ export default function CartPage() {
                 whileTap={{ scale: 0.97 }}
                 onClick={() => navigate('/caixa/loterias/apostar')}
                 style={{
-                  height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 20, fontWeight: 600, color: '#00AB67',
                   backgroundColor: '#FFFFFF',
                   border: '2px solid #00AB67',
@@ -407,7 +407,7 @@ export default function CartPage() {
                 disabled={!cpfValid || !hasItems}
                 onClick={handleFinalizar}
                 style={{
-                  height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16,
+                  height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16,
                   fontSize: 20, fontWeight: 600, color: '#FFFFFF',
                   backgroundColor: cpfValid && hasItems ? '#00AB67' : '#D0E0E3',
                   borderRadius: 8, border: 'none',
