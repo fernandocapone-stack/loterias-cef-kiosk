@@ -230,7 +230,7 @@ export default function CategoriaExpandidaScreen() {
         </motion.button>
       </div>
 
-      {/* ── Body: product grid (CSS grid, max 5 cols, equal height) ── */}
+      {/* ── Body: product grid (CSS grid, max 4 cols, equal height) ── */}
       <div
         className="flex-1 overflow-y-auto"
         style={{ padding: 24 }}
@@ -238,7 +238,7 @@ export default function CategoriaExpandidaScreen() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: 'repeat(4, 1fr)',
             gap: 24,
             alignItems: 'stretch',
           }}
