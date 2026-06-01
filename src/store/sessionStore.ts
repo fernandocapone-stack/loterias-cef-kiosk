@@ -1,5 +1,10 @@
 import { create } from 'zustand';
 
+export interface BolaoInfo {
+  cotas: number;        // nº de participantes = nº de comprovantes impressos
+  valorPorCota: number; // R$ por cota
+}
+
 export interface ApostaItem {
   id: string;
   modalidadeId: string;
@@ -7,8 +12,9 @@ export interface ApostaItem {
   numeros: number[];
   concursos: number;
   teimosinha: boolean;
-  valor: number;
-  addedAt: number; // Date.now() when aposta was added to cart
+  valor: number;        // total da aposta (no bolão = cotas * valorPorCota)
+  addedAt: number;      // Date.now() when aposta was added to cart
+  bolao?: BolaoInfo;    // presente apenas em apostas do tipo bolão
 }
 
 export interface BoletoSnapshot {
@@ -110,7 +116,11 @@ export const useSession = create<SessionState>((set, get) => ({
       paymentMethod,
       authCode: generateAuthCode(),
       nsu: generateNsu(),
-      bilheteNumeros: pending.apostas?.map(() => generateBilheteNumero()),
+      // Em bolão imprime-se 1 comprovante por cota; demais apostas, 1 por aposta.
+      bilheteNumeros: pending.apostas?.flatMap((a) => {
+        const qtd = a.bolao ? a.bolao.cotas : 1;
+        return Array.from({ length: qtd }, () => generateBilheteNumero());
+      }),
     };
     set({ lastOperation: last, pendingOperation: null });
     return last;

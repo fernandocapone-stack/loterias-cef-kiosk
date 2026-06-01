@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, Plus, XCircle, Delete, CheckCircle2, Clock } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Plus, XCircle, Delete, CheckCircle2, Clock, Users } from 'lucide-react';
 import { useSession } from '../../../store/sessionStore';
 import { brl } from '../../../utils/currency';
 import { getModalidade } from './data/modalidades';
@@ -263,9 +263,26 @@ export default function CartPage() {
                           <span style={{ fontSize: 20, fontWeight: 600, color: '#005DA4', lineHeight: '120%' }}>
                             {m.nome}
                           </span>
-                          <span style={{ fontSize: 20, fontWeight: 400, color: '#6B7280', lineHeight: '120%' }}>
-                            Concurso <strong style={{ fontWeight: 700 }}>{m.concursoAtual}</strong>
-                          </span>
+                          {a.bolao ? (
+                            <span
+                              className="flex items-center"
+                              style={{
+                                gap: 6, alignSelf: 'flex-start',
+                                padding: '2px 10px',
+                                backgroundColor: `${m.cor}15`,
+                                borderRadius: 999,
+                              }}
+                            >
+                              <Users style={{ width: 14, height: 14, color: m.cor }} strokeWidth={2.5} />
+                              <span style={{ fontSize: 14, fontWeight: 700, color: m.cor, lineHeight: '120%' }}>
+                                Bolão · {a.bolao.cotas} cotas × {brl(a.bolao.valorPorCota)}
+                              </span>
+                            </span>
+                          ) : (
+                            <span style={{ fontSize: 20, fontWeight: 400, color: '#6B7280', lineHeight: '120%' }}>
+                              Concurso <strong style={{ fontWeight: 700 }}>{m.concursoAtual}</strong>
+                            </span>
+                          )}
                         </div>
                       </div>
 

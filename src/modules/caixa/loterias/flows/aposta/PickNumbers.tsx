@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, Clock } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Clock, Users } from 'lucide-react';
 import { getModalidade, calcularPreco } from '../../data/modalidades';
 import { useSession } from '../../../../../store/sessionStore';
 import { useToastStore } from '../../../../../store/toastStore';
@@ -77,10 +77,14 @@ function Divider() {
 export default function PickNumbers() {
   const { modalidade } = useParams<{ modalidade: string }>();
   const navigate       = useNavigate();
+  const location       = useLocation();
   const m              = getModalidade(modalidade ?? '');
   const addAposta      = useSession((s) => s.addAposta);
   const cartCount      = useSession((s) => s.apostas.length);
   const showToast      = useToastStore((s) => s.show);
+
+  // Modo bolão é decidido em PickApostaType e propagado via location.state.
+  const isBolao = Boolean((location.state as { bolao?: boolean } | null)?.bolao);
 
   const [selected,   setSelected]   = useState<number[]>([]);
   const [qtd,        setQtd]        = useState<number>(0);
@@ -135,8 +139,19 @@ export default function PickNumbers() {
     addedAt:        Date.now(),
   });
 
+  // No modo bolão, os números aqui escolhidos viram um "bolão" — o usuário
+  // precisa ainda definir cotas e valor por cota em BolaoCotas antes de
+  // commitar no carrinho.
+  const goToBolao = () => {
+    if (!enough) return;
+    navigate(`/caixa/aposta/${m.id}/bolao`, {
+      state: { numeros: selected, concursos, teimosinha: concursos > 1 },
+    });
+  };
+
   const adicionarAposta = () => {
     if (!enough) return;
+    if (isBolao) return goToBolao();
     addAposta(buildAposta());
     showToast('Aposta adicionada ao carrinho!');
     navigate('/caixa/loterias/apostar');
@@ -144,6 +159,7 @@ export default function PickNumbers() {
 
   const confirmarEPagar = () => {
     if (!enough) return;
+    if (isBolao) return goToBolao();
     addAposta(buildAposta());
     navigate('/checkout/pagamento', { state: { valor: total } });
   };
@@ -179,12 +195,25 @@ export default function PickNumbers() {
           <span className="text-white" style={{ fontSize: 20, fontWeight: 500 }}>Voltar</span>
         </motion.button>
 
-        {/* Título: Símbolo + Nome */}
+        {/* Título: Símbolo + Nome (+ badge de bolão quando aplicável) */}
         <div className="flex-1 flex items-center justify-center" style={{ gap: 24 }}>
           <LotteryLogo modalidade={{ ...m, cor: '#FFFFFF' }} size={48} />
           <span className="font-semibold" style={{ fontSize: 44, color: '#FFFFFF', lineHeight: '120%' }}>
             {m.nome}
           </span>
+          {isBolao && (
+            <span
+              className="flex items-center"
+              style={{
+                gap: 8, padding: '8px 16px',
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                borderRadius: 999,
+              }}
+            >
+              <Users style={{ width: 24, height: 24, color: '#FFFFFF' }} strokeWidth={2} />
+              <span style={{ fontSize: 20, fontWeight: 600, color: '#FFFFFF' }}>Bolão</span>
+            </span>
+          )}
         </div>
 
         {/* Carrinho */}
@@ -425,8 +454,12 @@ export default function PickNumbers() {
                 opacity: enough ? 1 : 0.4,
               }}
             >
-              <ShoppingCart style={{ width: 32, height: 32, flexShrink: 0 }} strokeWidth={2} />
-              Adicionar Aposta
+              {isBolao ? (
+                <Users style={{ width: 32, height: 32, flexShrink: 0 }} strokeWidth={2} />
+              ) : (
+                <ShoppingCart style={{ width: 32, height: 32, flexShrink: 0 }} strokeWidth={2} />
+              )}
+              {isBolao ? 'Definir Cotas' : 'Adicionar Aposta'}
             </motion.button>
 
             {/* Botão: Confirmar e Pagar */}
@@ -443,7 +476,7 @@ export default function PickNumbers() {
                 borderRadius: 8, opacity: enough ? 1 : 0.6,
               }}
             >
-              Confirmar e Pagar
+              {isBolao ? 'Definir Cotas' : 'Confirmar e Pagar'}
             </motion.button>
           </div>
 

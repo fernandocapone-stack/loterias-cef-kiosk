@@ -43,6 +43,14 @@ export default function SuccessScreen() {
   const valor    = operation?.total ?? 0;
   const method   = 'Pix';
 
+  // Quando há bolão, somam-se as cotas (cada cota = 1 comprovante impresso).
+  const apostas = operation?.apostas ?? [];
+  const comprovantes = apostas.reduce(
+    (sum, a) => sum + (a.bolao ? a.bolao.cotas : 1),
+    0,
+  );
+  const temBolao = apostas.some((a) => a.bolao);
+
   return (
     <div
       className="h-full w-full flex items-center justify-center overflow-auto"
@@ -111,6 +119,13 @@ export default function SuccessScreen() {
             { label: 'Data/Hora:', value: now,      valueStyle: { fontWeight: 500, color: '#374151' } },
             { label: 'Valor:',     value: brl(valor), valueStyle: { fontWeight: 700, color: '#00A63E' } },
             { label: 'Pagamento:', value: method,   valueStyle: { fontWeight: 500, color: '#374151', textTransform: 'capitalize' as const } },
+            ...(temBolao
+              ? [{
+                  label: 'Comprovantes:',
+                  value: `${comprovantes} impressos`,
+                  valueStyle: { fontWeight: 700, color: '#0066B3' } as const,
+                }]
+              : []),
           ].map((row, i, arr) => (
             <div key={row.label}>
               <div className="flex items-center justify-between">

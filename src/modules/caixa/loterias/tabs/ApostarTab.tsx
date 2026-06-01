@@ -107,7 +107,7 @@ export default function ApostarTab() {
               transition={{ delay: idx * 0.03, duration: 0.2 }}
               whileTap={{ scale: 0.97 }}
               whileHover={{ y: -4, boxShadow: '0px 6px 16px rgba(0,0,0,0.14)' }}
-              onClick={() => navigate(`/caixa/aposta/${m.id}/numeros`)}
+              onClick={() => navigate(`/caixa/aposta/${m.id}/tipo`)}
               className="text-left flex flex-col bg-white shrink-0"
               style={{
                 width: 'calc((100% - 4 * 24px) / 5)',

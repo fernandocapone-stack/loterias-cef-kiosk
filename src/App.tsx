@@ -12,8 +12,9 @@ import PagarTab from './modules/caixa/loterias/tabs/PagarTab';
 import RecarregarTab from './modules/caixa/loterias/tabs/RecarregarTab';
 import ResultadosTab from './modules/caixa/loterias/tabs/ResultadosTab';
 import CartPage from './modules/caixa/loterias/CartPage';
-import PickMethod from './modules/caixa/loterias/flows/aposta/PickMethod';
+import PickApostaType from './modules/caixa/loterias/flows/aposta/PickApostaType';
 import PickNumbers from './modules/caixa/loterias/flows/aposta/PickNumbers';
+import BolaoCotas from './modules/caixa/loterias/flows/aposta/BolaoCotas';
 import ReviewBilhete from './modules/caixa/loterias/flows/aposta/ReviewBilhete';
 import CpfPrompt from './modules/caixa/loterias/flows/aposta/CpfPrompt';
 import CpfInput from './modules/caixa/loterias/flows/aposta/CpfInput';
@@ -64,8 +65,9 @@ export default function App() {
           </Route>
 
           {/* ── Bet flow (fullscreen, outside shell) ── */}
-          <Route path="/caixa/aposta/:modalidade/metodo" element={<PickMethod />} />
+          <Route path="/caixa/aposta/:modalidade/tipo" element={<PickApostaType />} />
           <Route path="/caixa/aposta/:modalidade/numeros" element={<PickNumbers />} />
+          <Route path="/caixa/aposta/:modalidade/bolao" element={<BolaoCotas />} />
           <Route path="/caixa/aposta/revisao" element={<ReviewBilhete />} />
           <Route path="/caixa/aposta/cpf" element={<CpfPrompt />} />
           <Route path="/caixa/aposta/cpf/digitar" element={<CpfInput />} />
