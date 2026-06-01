@@ -28,6 +28,9 @@ export default function PickApostaType() {
   const goBolao = () =>
     navigate(`/caixa/aposta/${m.id}/numeros`, { state: { bolao: true } });
 
+  const goCaderneta = () =>
+    navigate(`/caixa/aposta/${m.id}/caderneta`);
+
   const options = [
     {
       id: 'individual',
@@ -40,6 +43,12 @@ export default function PickApostaType() {
       title: 'Bolão',
       desc: 'Divida a aposta em cotas com mais pessoas.',
       onClick: goBolao,
+    },
+    {
+      id: 'caderneta',
+      title: 'Ler Caderneta',
+      desc: 'Use a câmera do totem para ler sua caderneta física.',
+      onClick: goCaderneta,
     },
   ];
 

@@ -15,6 +15,7 @@ import CartPage from './modules/caixa/loterias/CartPage';
 import PickApostaType from './modules/caixa/loterias/flows/aposta/PickApostaType';
 import PickNumbers from './modules/caixa/loterias/flows/aposta/PickNumbers';
 import BolaoCotas from './modules/caixa/loterias/flows/aposta/BolaoCotas';
+import LerCaderneta from './modules/caixa/loterias/flows/aposta/LerCaderneta';
 import ReviewBilhete from './modules/caixa/loterias/flows/aposta/ReviewBilhete';
 import CpfPrompt from './modules/caixa/loterias/flows/aposta/CpfPrompt';
 import CpfInput from './modules/caixa/loterias/flows/aposta/CpfInput';
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/caixa/aposta/:modalidade/tipo" element={<PickApostaType />} />
           <Route path="/caixa/aposta/:modalidade/numeros" element={<PickNumbers />} />
           <Route path="/caixa/aposta/:modalidade/bolao" element={<BolaoCotas />} />
+          <Route path="/caixa/aposta/:modalidade/caderneta" element={<LerCaderneta />} />
           <Route path="/caixa/aposta/revisao" element={<ReviewBilhete />} />
           <Route path="/caixa/aposta/cpf" element={<CpfPrompt />} />
           <Route path="/caixa/aposta/cpf/digitar" element={<CpfInput />} />
