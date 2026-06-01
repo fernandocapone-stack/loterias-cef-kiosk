@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, User, Users } from 'lucide-react';
+import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { getModalidade } from '../../data/modalidades';
 import { useSession } from '../../../../../store/sessionStore';
 import LotteryLogo from '../../components/LotteryLogo';
@@ -33,14 +33,14 @@ export default function PickApostaType() {
       id: 'individual',
       title: 'Aposta Individual',
       desc: 'Você joga sozinho e o comprovante fica em seu nome.',
-      Icon: User,
+      imagem: '/images/servicos/loterica-aposta-individual.png',
       onClick: goIndividual,
     },
     {
       id: 'bolao',
       title: 'Bolão',
-      desc: 'Divida a aposta em cotas — um comprovante para cada participante.',
-      Icon: Users,
+      desc: 'Divida a aposta em cotas com mais pessoas.',
+      imagem: '/images/servicos/loterica-aposta-bolao.png',
       onClick: goBolao,
     },
   ];
@@ -143,11 +143,14 @@ export default function PickApostaType() {
                 boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.09)',
               }}
             >
-              {/* Zona da imagem — círculo + ícone */}
-              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 220 }}>
+              {/* Zona da imagem — círculo + ilustração 3D (mesmo padrão do LotericaHome) */}
+              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 260 }}>
                 <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
-                <opt.Icon
-                  style={{ position: 'relative', width: 140, height: 140, color: m.cor, strokeWidth: 1.25 }}
+                <img
+                  src={opt.imagem}
+                  alt=""
+                  draggable={false}
+                  style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
                 />
               </div>
 
