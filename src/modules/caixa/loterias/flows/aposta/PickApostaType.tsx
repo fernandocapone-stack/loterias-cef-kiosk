@@ -171,8 +171,10 @@ export default function PickApostaType() {
                 draggable={false}
                 style={{
                   position: 'relative',
-                  width: '100%',
-                  height: '100%',
+                  width: 320,
+                  height: 320,
+                  maxWidth: '100%',
+                  maxHeight: '100%',
                   objectFit: 'contain',
                   pointerEvents: 'none',
                   userSelect: 'none',
