@@ -18,8 +18,8 @@ export default function CaixaHub() {
       title: 'Para você',
       desc: 'Produtos e serviços \npara pessoa física.',
       imagem: '/images/servicos/caixa-para-voce.png',
-      disabled: true,
-      onClick: () => {},
+      disabled: false,
+      onClick: () => navigate('/caixa/para-voce'),
     },
     {
       title: 'Para sua empresa',

@@ -5,6 +5,7 @@ import HomeScreen from './modules/home/HomeScreen';
 import ModuleChoiceScreen from './modules/module-choice/ModuleChoiceScreen';
 import CaixaHub from './modules/caixa/hub/CaixaHub';
 import ComingSoon from './modules/caixa/outros-servicos/ComingSoon';
+import ParaVoceHub from './modules/caixa/para-voce/ParaVoceHub';
 import LoteriasShell from './modules/caixa/loterias/LoteriasShell';
 import LotericaHome from './modules/caixa/loterias/LotericaHome';
 import ApostarTab from './modules/caixa/loterias/tabs/ApostarTab';
@@ -49,6 +50,9 @@ export default function App() {
           {/* ── Caixa hub ── */}
           <Route path="/caixa" element={<CaixaHub />} />
           <Route path="/caixa/outros" element={<ComingSoon />} />
+          <Route path="/caixa/para-voce" element={<ParaVoceHub />} />
+          {/* Stub do fluxo de crédito — substituído nas próximas fases */}
+          <Route path="/caixa/credito" element={<ComingSoon />} />
 
           {/* ── Lotéricas shell (thin wrapper) ── */}
           <Route path="/caixa/loterias" element={<LoteriasShell />}>
