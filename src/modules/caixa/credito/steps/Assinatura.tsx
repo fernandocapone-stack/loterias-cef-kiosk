@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileSignature } from 'lucide-react';
-import AlphanumericKeypad from '../../../../components/ui/AlphanumericKeypad';
+import CpfNumpad from '../../../../components/ui/CpfNumpad';
 import { useCredito } from '../../../../store/creditoStore';
 
 /**
@@ -13,17 +13,13 @@ import { useCredito } from '../../../../store/creditoStore';
  *             + erro + CTA "Confirmar assinatura" + nota
  *   DIREITA:  AlphanumericKeypad
  *
- * Código de 6 caracteres alfanuméricos (maiúsculas A-Z + dígitos 0-9), gerado
- * por sessão para demonstração.
+ * Código de 6 dígitos numéricos, gerado por sessão para demonstração.
+ * (Originalmente alfanumérico no Ezbob — simplificado para totem.)
  */
-
-const CHARSET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sem caracteres confusos (I, O, 0, 1)
 
 function gerarCodigoAES(): string {
   let s = '';
-  for (let i = 0; i < 6; i++) {
-    s += CHARSET.charAt(Math.floor(Math.random() * CHARSET.length));
-  }
+  for (let i = 0; i < 6; i++) s += Math.floor(Math.random() * 10);
   return s;
 }
 
@@ -73,8 +69,8 @@ export default function Assinatura() {
             Assinatura eletrônica
           </span>
           <span style={{ fontSize: 18, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
-            Enviamos um código alfanumérico de 6 caracteres pelo WhatsApp
-            para confirmar sua assinatura.
+            Enviamos um código de 6 dígitos pelo WhatsApp para confirmar
+            sua assinatura.
           </span>
         </div>
 
@@ -180,9 +176,9 @@ export default function Assinatura() {
         </span>
       </div>
 
-      {/* ── Coluna direita — keypad ── */}
+      {/* ── Coluna direita — numpad ── */}
       <div className="flex justify-center items-center" style={{ flex: '0 0 auto' }}>
-        <AlphanumericKeypad onPress={onPress} onBackspace={onBack} onClear={onClear} />
+        <CpfNumpad onPress={onPress} onBackspace={onBack} onClear={onClear} />
       </div>
     </motion.div>
   );
