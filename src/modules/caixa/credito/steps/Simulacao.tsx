@@ -103,27 +103,26 @@ export default function Simulacao() {
         />
       </div>
 
-      {/* 3 cards de resultado */}
-      <div className="flex" style={{ gap: 16 }}>
-        <ResultCard label="Parcela mensal" value={brl(parcela)} highlight />
-        <ResultCard label="Juros totais"   value={brl(juros)} />
-        <ResultCard label="Total a pagar"  value={brl(total)} />
-      </div>
-
-      {/* Bloco taxa / CET / DDA */}
+      {/* 3 resultados em linha — flat, sem container */}
       <div
+        className="flex"
         style={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: 8,
-          padding: '20px 24px',
-          display: 'flex', flexDirection: 'column', gap: 4,
+          gap: 24,
+          padding: '4px 24px',
         }}
       >
-        <span style={{ fontSize: 18, color: '#374151', lineHeight: '150%' }}>
+        <ResultColumn label="Parcela mensal" value={brl(parcela)} />
+        <ResultColumn label="Juros totais"   value={brl(juros)} />
+        <ResultColumn label="Total a pagar"  value={brl(total)} />
+      </div>
+
+      {/* Taxa / CET / DDA — texto inline, sem container */}
+      <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={{ fontSize: 16, color: '#374151', lineHeight: '150%' }}>
           <strong style={{ fontWeight: 700 }}>Taxa de juros:</strong>{' '}
           {(TAXA_MENSAL * 100).toFixed(2).replace('.', ',')}% a.m. (CET {(CET_ANUAL * 100).toFixed(2).replace('.', ',')}% a.a.)
         </span>
-        <span style={{ fontSize: 16, color: '#6B7280', lineHeight: '150%' }}>
+        <span style={{ fontSize: 14, color: '#6B7280', lineHeight: '150%' }}>
           O primeiro pagamento será debitado 30 dias após o desembolso via Débito Direto Autorizado (DDA).
         </span>
       </div>
@@ -226,36 +225,18 @@ function SliderField({
   );
 }
 
-/* ── ResultCard ─────────────────────────────────────────────────────── */
-function ResultCard({
-  label, value, highlight = false,
-}: {
-  label: string;
-  value: string;
-  highlight?: boolean;
-}) {
+/* ── ResultColumn — coluna de resultado flat (sem container) ───────── */
+function ResultColumn({ label, value }: { label: string; value: string }) {
   return (
-    <div
-      className="flex flex-col"
-      style={{
-        flex: 1,
-        borderRadius: 8,
-        padding: '20px 24px',
-        backgroundColor: highlight ? '#0066B3' : '#FFFFFF',
-        border: highlight ? 'none' : '2px solid rgba(0,0,0,0.06)',
-        gap: 8,
-      }}
-    >
+    <div className="flex flex-col" style={{ flex: 1, gap: 4 }}>
       <span style={{
-        fontSize: 14, fontWeight: 700,
-        color: highlight ? 'rgba(255,255,255,0.85)' : '#6B7280',
+        fontSize: 13, fontWeight: 700, color: '#6B7280',
         letterSpacing: '0.08em', textTransform: 'uppercase',
       }}>
         {label}
       </span>
       <span style={{
-        fontSize: 32, fontWeight: 700,
-        color: highlight ? '#FFFFFF' : '#374151',
+        fontSize: 30, fontWeight: 700, color: '#0066B3',
         fontVariantNumeric: 'tabular-nums', lineHeight: '120%',
       }}>
         {value}
