@@ -76,12 +76,15 @@ export default function CreditoShell() {
         <div style={{ width: 280, height: 80, flexShrink: 0 }} />
       </div>
 
-      {/* ── Stepper (oculto na conclusão) ── */}
-      {step && <CreditoStepper current={step} />}
+      {/* ── Row: stepper lateral + body ── */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Stepper vertical (oculto na conclusão) */}
+        {step && <CreditoStepper current={step} />}
 
-      {/* ── Body ── */}
-      <div className="flex-1 overflow-y-auto">
-        <Outlet />
+        {/* Body — rolável independente */}
+        <div className="flex-1 overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
