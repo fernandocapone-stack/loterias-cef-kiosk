@@ -13,7 +13,11 @@ import { useCredito } from '../../../../store/creditoStore';
  *   - Sem radios PF/PJ/Governo (já decidido em "Para você")
  *   - Sem certificado digital (totem não tem leitor)
  *
- * Layout: card central com display de CPF + numpad + CTA Continuar.
+ * Layout em 2 colunas (sem card branco, sobre o body #EFF5F9):
+ *   ESQUERDA: título + subtítulo + display do CPF + erro + CTA Continuar
+ *   DIREITA:  numpad
+ *
+ * Fit em 1440×900 sem scroll vertical.
  */
 export default function Acesso() {
   const navigate    = useNavigate();
@@ -22,7 +26,6 @@ export default function Acesso() {
 
   const [cpf, setCpf] = useState<string>(storeCpf ?? '');
 
-  // Sincroniza com store se voltar pra cá depois (sem perder o CPF digitado).
   useEffect(() => {
     if (storeCpf && !cpf) setCpf(storeCpf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,29 +40,24 @@ export default function Acesso() {
   };
 
   return (
-    <div
-      className="flex flex-col items-center"
-      style={{ minHeight: '100%', padding: 24, gap: 24 }}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      className="h-full w-full flex items-center"
+      style={{ padding: '40px 48px', gap: 64 }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="bg-white rounded-lg"
-        style={{
-          width: '100%', maxWidth: 720,
-          padding: 40,
-          display: 'flex', flexDirection: 'column', gap: 32,
-          boxShadow: '0px 2px 4px rgba(0,0,0,0.06)',
-        }}
+      {/* ── Coluna esquerda — texto + display + CTA ── */}
+      <div
+        className="flex flex-col"
+        style={{ flex: 1, gap: 32, minWidth: 0, maxWidth: 560 }}
       >
-        {/* Título */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <span style={{ fontSize: 32, fontWeight: 700, color: '#0066B3', lineHeight: '120%' }}>
+          <span style={{ fontSize: 36, fontWeight: 700, color: '#0066B3', lineHeight: '120%' }}>
             Informe seu CPF
           </span>
           <span style={{ fontSize: 20, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
-            Use o teclado abaixo para iniciar a solicitação de crédito pessoal.
+            Use o teclado ao lado para iniciar a solicitação de crédito pessoal.
           </span>
         </div>
 
@@ -68,8 +66,8 @@ export default function Acesso() {
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '26px 24px',
-            backgroundColor: '#EFF5F9',
-            border: `1px solid ${cpfValid ? '#00AB67' : cpf.length === 11 ? '#ED1C24' : '#D0E0E3'}`,
+            backgroundColor: '#FFFFFF',
+            border: `2px solid ${cpfValid ? '#00AB67' : cpf.length === 11 ? '#ED1C24' : '#D0E0E3'}`,
             borderRadius: 8,
             gap: 12,
             transition: 'border-color 0.2s',
@@ -77,7 +75,7 @@ export default function Acesso() {
         >
           <span style={{
             flex: 1, textAlign: 'center',
-            fontSize: 32, fontWeight: 400, lineHeight: '28px',
+            fontSize: 32, fontWeight: 500, lineHeight: '28px',
             color: cpf ? '#0066B3' : '#D0E0E3',
             fontVariantNumeric: 'tabular-nums',
             letterSpacing: cpf ? '0.08em' : '0.04em',
@@ -85,7 +83,7 @@ export default function Acesso() {
             {cpf ? formatCpf(cpf) : '000.000.000-00'}
           </span>
           {cpfValid && (
-            <CheckCircle2 style={{ width: 24, height: 24, color: '#00AB67', flexShrink: 0 }} />
+            <CheckCircle2 style={{ width: 28, height: 28, color: '#00AB67', flexShrink: 0 }} />
           )}
         </div>
 
@@ -112,15 +110,6 @@ export default function Acesso() {
           </motion.div>
         )}
 
-        {/* Numpad — centralizado */}
-        <div className="flex justify-center">
-          <CpfNumpad
-            onPress={(k) => setCpf((c) => (c.length < 11 ? c + k : c))}
-            onBackspace={() => setCpf((c) => c.slice(0, -1))}
-            onClear={() => setCpf('')}
-          />
-        </div>
-
         {/* CTA Continuar */}
         <motion.button
           whileTap={cpfValid ? { scale: 0.97 } : {}}
@@ -139,11 +128,19 @@ export default function Acesso() {
           <ArrowRight style={{ width: 28, height: 28 }} strokeWidth={2} />
         </motion.button>
 
-        {/* Nota de demonstração */}
-        <span style={{ fontSize: 14, color: '#9CA3AF', textAlign: 'center' }}>
+        <span style={{ fontSize: 14, color: '#9CA3AF' }}>
           Demonstração — dados fictícios. O totem não armazena seu CPF após a operação.
         </span>
-      </motion.div>
-    </div>
+      </div>
+
+      {/* ── Coluna direita — numpad ── */}
+      <div className="flex justify-center items-center" style={{ flex: '0 0 auto' }}>
+        <CpfNumpad
+          onPress={(k) => setCpf((c) => (c.length < 11 ? c + k : c))}
+          onBackspace={() => setCpf((c) => c.slice(0, -1))}
+          onClear={() => setCpf('')}
+        />
+      </div>
+    </motion.div>
   );
 }
