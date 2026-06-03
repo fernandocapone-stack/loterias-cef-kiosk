@@ -81,8 +81,8 @@ export default function Simulacao() {
         </span>
       </div>
 
-      {/* Sliders */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Sliders — lado a lado */}
+      <div className="flex" style={{ gap: 24 }}>
         <SliderField
           label="Valor solicitado"
           value={valor}
@@ -184,6 +184,8 @@ function SliderField({
   return (
     <div
       style={{
+        flex: 1,
+        minWidth: 0,
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         padding: '20px 24px',

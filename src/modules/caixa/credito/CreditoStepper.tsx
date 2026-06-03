@@ -42,7 +42,7 @@ export default function CreditoStepper({ current }: { current: CreditoStep }) {
       className="shrink-0 flex flex-col"
       style={{
         width: 320,
-        backgroundColor: 'transparent',
+        backgroundColor: '#FFFFFF',
         padding: '40px 32px',
         gap: 0,
       }}
