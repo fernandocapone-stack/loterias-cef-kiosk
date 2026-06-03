@@ -1,20 +1,20 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { RefreshCw, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import CpfNumpad from '../../../../components/ui/CpfNumpad';
 import { useCredito } from '../../../../store/creditoStore';
 
 /**
  * Crédito Pessoal — Etapa 1.B (Verificação por WhatsApp).
  *
- * Mesma estrutura visual do Acesso (2 colunas, sem card, sobre #EFF5F9) —
- * mantém os CTAs sempre visíveis sem scroll.
+ * Mesma estrutura e proporção do Acesso:
+ *   ESQUERDA (max 560): título + subtítulo + 6 caixas (display) + erro/demo + CTA + nota
+ *   DIREITA:            numpad (CpfNumpad reaproveitado)
  *
- * Como é demonstração:
- *   - O código de 6 dígitos é gerado por sessão e exibido pré-preenchido nas
- *     caixas, sem necessidade de digitação.
- *   - Sem numpad. Sem feedback de erro.
- *   - Reenviar regenera o código pré-preenchido; Verificar avança.
+ * O usuário digita o código de 6 dígitos no numpad. Como é demonstração, o
+ * código simulado fica visível em texto pequeno abaixo das caixas para
+ * facilitar o preenchimento.
  */
 
 function gerarCodigo6(): string {
@@ -33,12 +33,30 @@ export default function Verificacao() {
   const cpf              = useCredito((s) => s.cpf);
   const setOtpVerificado = useCredito((s) => s.setOtpVerificado);
 
-  const [codigo, setCodigo] = useState<string>(() => gerarCodigo6());
-  const telefone = useMemo(() => telefoneMock(cpf), [cpf]);
+  const [esperado, setEsperado] = useState<string>(() => gerarCodigo6());
+  const [digitado, setDigitado] = useState<string>('');
+  const [erro, setErro]         = useState<boolean>(false);
 
-  const reenviar = () => setCodigo(gerarCodigo6());
+  const telefone = useMemo(() => telefoneMock(cpf), [cpf]);
+  const completo = digitado.length === 6;
+  const valido   = completo && digitado === esperado;
+
+  const onPress = (k: string) => {
+    setErro(false);
+    setDigitado((c) => (c.length < 6 ? c + k : c));
+  };
+  const onBack  = () => { setErro(false); setDigitado((c) => c.slice(0, -1)); };
+  const onClear = () => { setErro(false); setDigitado(''); };
+
+  const reenviar = () => {
+    setEsperado(gerarCodigo6());
+    setDigitado('');
+    setErro(false);
+  };
 
   const verificar = () => {
+    if (!completo) return;
+    if (!valido) { setErro(true); return; }
     setOtpVerificado(true);
     navigate('/caixa/credito/dados');
   };
@@ -51,8 +69,8 @@ export default function Verificacao() {
       className="h-full w-full flex items-center"
       style={{ padding: '40px 48px', gap: 64 }}
     >
-      {/* ── Coluna esquerda — texto + CTAs ── */}
-      <div className="flex flex-col" style={{ flex: 1, gap: 32, minWidth: 0, maxWidth: 560 }}>
+      {/* ── Coluna esquerda — conteúdo + display + CTA ── */}
+      <div className="flex flex-col" style={{ flex: 1, gap: 24, minWidth: 0, maxWidth: 560 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <span style={{ fontSize: 36, fontWeight: 700, color: '#0066B3', lineHeight: '120%' }}>
             Verificação por WhatsApp
@@ -63,100 +81,111 @@ export default function Verificacao() {
           </span>
         </div>
 
-        {/* Hint de demo */}
-        <div
-          style={{
-            padding: '16px 20px',
-            backgroundColor: '#FFFAE3',
-            border: '1px dashed #F39200',
-            borderRadius: 8,
-            display: 'flex', flexDirection: 'column', gap: 4,
-          }}
-        >
+        {/* 6 caixas de display do código */}
+        <div className="flex" style={{ gap: 10, alignSelf: 'stretch' }}>
+          {Array.from({ length: 6 }).map((_, i) => {
+            const ch       = digitado[i] ?? '';
+            const filled   = ch !== '';
+            const errorCol = erro && completo;
+            return (
+              <div
+                key={i}
+                className="flex items-center justify-center"
+                style={{
+                  flex: 1, height: 92,
+                  borderRadius: 8,
+                  border: `2px solid ${errorCol ? '#ED1C24' : filled ? '#0066B3' : '#D0E0E3'}`,
+                  backgroundColor: '#FFFFFF',
+                  transition: 'border-color 0.18s',
+                }}
+              >
+                <span style={{
+                  fontSize: 36, fontWeight: 700,
+                  color: errorCol ? '#ED1C24' : '#0066B3',
+                  fontVariantNumeric: 'tabular-nums',
+                  lineHeight: '120%',
+                }}>
+                  {ch}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Hint do código simulado (sempre visível em demo) */}
+        <div className="flex items-center" style={{ gap: 8 }}>
           <span style={{
             fontSize: 14, fontWeight: 700, color: '#A67700',
             letterSpacing: '0.08em', textTransform: 'uppercase',
           }}>
-            Demonstração
+            Demonstração — código:
           </span>
-          <span style={{ fontSize: 16, color: '#6B5500', lineHeight: '150%' }}>
-            O código simulado aparece preenchido automaticamente. Em produção,
-            o usuário digitaria o código recebido no WhatsApp.
+          <span style={{
+            fontSize: 16, fontWeight: 700, color: '#6B5500',
+            fontVariantNumeric: 'tabular-nums', letterSpacing: '0.2em',
+          }}>
+            {esperado}
           </span>
-        </div>
-
-        {/* Ações */}
-        <div className="flex items-center" style={{ gap: 16 }}>
           <motion.button
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.95 }}
             onClick={reenviar}
-            className="flex items-center justify-center font-semibold rounded-lg"
             style={{
-              flex: 1,
-              height: 80, gap: 12, padding: '0 24px',
-              fontSize: 20, color: '#005DA4',
-              backgroundColor: '#FFFFFF',
-              border: '2px solid #D0E0E3',
-              borderRadius: 8,
+              marginLeft: 'auto',
+              fontSize: 14, fontWeight: 600, color: '#005DA4',
+              background: 'none', border: 'none', padding: 0,
+              textDecoration: 'underline',
             }}
           >
-            <RefreshCw style={{ width: 24, height: 24 }} strokeWidth={2} />
-            Reenviar
-          </motion.button>
-
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={verificar}
-            className="flex items-center justify-center font-semibold rounded-lg"
-            style={{
-              flex: 1,
-              height: 80, gap: 12, padding: '0 24px',
-              fontSize: 20, color: '#FFFFFF',
-              backgroundColor: '#00AB67',
-              borderRadius: 8,
-            }}
-          >
-            Verificar
-            <ArrowRight style={{ width: 28, height: 28 }} strokeWidth={2} />
+            Reenviar código
           </motion.button>
         </div>
+
+        {/* Erro */}
+        {erro && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.18 }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '10px 16px',
+              backgroundColor: 'rgba(237,28,36,0.08)',
+              borderRadius: 8,
+              border: '1px solid rgba(237,28,36,0.25)',
+            }}
+          >
+            <span style={{ fontSize: 18, fontWeight: 500, color: '#ED1C24', lineHeight: '150%' }}>
+              Código incorreto. Tente novamente.
+            </span>
+          </motion.div>
+        )}
+
+        {/* CTA Verificar */}
+        <motion.button
+          whileTap={completo ? { scale: 0.97 } : {}}
+          disabled={!completo}
+          onClick={verificar}
+          className="flex items-center justify-center font-semibold rounded-lg"
+          style={{
+            height: 80, gap: 16, padding: '0 32px',
+            fontSize: 20, color: '#FFFFFF',
+            backgroundColor: completo ? '#00AB67' : '#D0E0E3',
+            borderRadius: 8,
+            transition: 'background-color 0.25s',
+          }}
+        >
+          Verificar
+          <ArrowRight style={{ width: 28, height: 28 }} strokeWidth={2} />
+        </motion.button>
+
+        <span style={{ fontSize: 14, color: '#9CA3AF' }}>
+          Demonstração — código gerado por sessão e não enviado pelo WhatsApp.
+        </span>
       </div>
 
-      {/* ── Coluna direita — 6 caixas pré-preenchidas ── */}
-      <div className="flex flex-col items-center" style={{ flex: '0 0 auto', gap: 16 }}>
-        <div className="flex" style={{ gap: 12 }}>
-          {codigo.split('').map((ch, i) => (
-            <motion.div
-              key={`${codigo}-${i}`}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.2 }}
-              className="flex items-center justify-center"
-              style={{
-                width: 88, height: 112,
-                borderRadius: 8,
-                border: '2px solid #0066B3',
-                backgroundColor: '#FFFFFF',
-              }}
-            >
-              <span style={{
-                fontSize: 48, fontWeight: 700,
-                color: '#0066B3',
-                fontVariantNumeric: 'tabular-nums',
-                lineHeight: '120%',
-              }}>
-                {ch}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-
-        <span style={{
-          fontSize: 14, fontWeight: 600, color: '#9CA3AF',
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-        }}>
-          Código simulado
-        </span>
+      {/* ── Coluna direita — numpad ── */}
+      <div className="flex justify-center items-center" style={{ flex: '0 0 auto' }}>
+        <CpfNumpad onPress={onPress} onBackspace={onBack} onClear={onClear} />
       </div>
     </motion.div>
   );
