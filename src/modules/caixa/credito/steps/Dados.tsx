@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Edit3 } from 'lucide-react';
+import { ArrowRight, Edit3, ArrowDownCircle } from 'lucide-react';
 import { useCredito } from '../../../../store/creditoStore';
 import { formatCpf } from '../../../../utils/cpf';
 import { brl } from '../../../../utils/currency';
@@ -8,13 +9,13 @@ import { brl } from '../../../../utils/currency';
 /**
  * Crédito Pessoal — Etapa 2 (Seus dados).
  *
- * Sem card branco: preenche todo o espaço horizontal do viewport, mesmo
- * padrão visual de Acesso/Verificação/Simulação.
- *
- * Botões:
- *   - Dados incorretos: limpa a sessão e volta para o início do fluxo
- *   - Confirmar:        marca dadosConfirmados=true e avança para Simulação
+ * Layout flat full-width. CTAs sempre fixos no rodapé; a tabela rola
+ * internamente quando o conteúdo extrapola a altura. Pill "Role até o final"
+ * aparece no canto inferior direito da área scrollável quando há overflow
+ * (mesmo padrão do Contrato).
  */
+
+const SCROLL_END_THRESHOLD = 8;
 
 const MOCK = {
   nome:        'João da Silva Santos',
@@ -30,6 +31,30 @@ export default function Dados() {
   const cpf                 = useCredito((s) => s.cpf);
   const setDadosConfirmados = useCredito((s) => s.setDadosConfirmados);
   const reset               = useCredito((s) => s.reset);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [overflow,  setOverflow]  = useState(false);
+  const [atEnd,     setAtEnd]     = useState(false);
+
+  // Checa overflow no mount e em resize do container
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const check = () => {
+      const over = el.scrollHeight > el.clientHeight + 1;
+      setOverflow(over);
+      if (!over) setAtEnd(true);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    setAtEnd(el.scrollTop + el.clientHeight >= el.scrollHeight - SCROLL_END_THRESHOLD);
+  };
 
   const dadosIncorretos = () => {
     reset();
@@ -57,48 +82,84 @@ export default function Dados() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
       className="h-full w-full flex flex-col"
-      style={{ padding: '40px 48px', gap: 32 }}
+      style={{ padding: '32px 48px', gap: 20 }}
     >
       {/* Título */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <span style={{ fontSize: 36, fontWeight: 700, color: '#0066B3', lineHeight: '120%' }}>
           Confirme seus dados
         </span>
-        <span style={{ fontSize: 20, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
+        <span style={{ fontSize: 18, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
           Estas são as informações que a Caixa tem em seus registros.
         </span>
       </div>
 
-      {/* Tabela ocupando todo o espaço horizontal */}
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        {rows.map((row, i) => (
-          <div
-            key={row.label}
+      {/* Tabela scrollável dentro do container branco */}
+      <div className="relative" style={{ flex: 1, minHeight: 0 }}>
+        <div
+          ref={scrollRef}
+          onScroll={onScroll}
+          className="overflow-y-auto"
+          style={{
+            height: '100%',
+            backgroundColor: '#FFFFFF',
+            borderRadius: 8,
+            border: '1px solid rgba(0,0,0,0.08)',
+            padding: '8px 32px',
+          }}
+        >
+          {rows.map((row, i) => (
+            <div
+              key={row.label}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '280px 1fr',
+                gap: 32,
+                padding: '20px 0',
+                borderTop: i === 0 ? 'none' : '1px solid rgba(0,0,0,0.08)',
+                alignItems: 'baseline',
+              }}
+            >
+              <span style={{
+                fontSize: 16, fontWeight: 600, color: '#6B7280',
+                textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: '150%',
+              }}>
+                {row.label}
+              </span>
+              <span style={{
+                fontSize: 22, fontWeight: 600, color: '#374151', lineHeight: '150%',
+              }}>
+                {row.value}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Pill flutuante — só aparece se houver overflow E não estiver no fim */}
+        {overflow && !atEnd && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
             style={{
-              display: 'grid',
-              gridTemplateColumns: '280px 1fr',
-              gap: 32,
-              padding: '20px 0',
-              borderTop: i === 0 ? 'none' : '1px solid rgba(0,0,0,0.08)',
-              alignItems: 'baseline',
+              position: 'absolute',
+              right: 16, bottom: 16,
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '8px 14px',
+              backgroundColor: 'rgba(0,102,179,0.92)',
+              borderRadius: 999,
+              pointerEvents: 'none',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
             }}
           >
-            <span style={{
-              fontSize: 16, fontWeight: 600, color: '#6B7280',
-              textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: '150%',
-            }}>
-              {row.label}
+            <ArrowDownCircle style={{ width: 18, height: 18, color: '#FFFFFF' }} strokeWidth={2} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>
+              Role para ver mais
             </span>
-            <span style={{
-              fontSize: 22, fontWeight: 600, color: '#374151', lineHeight: '150%',
-            }}>
-              {row.value}
-            </span>
-          </div>
-        ))}
+          </motion.div>
+        )}
       </div>
 
-      {/* Ações */}
+      {/* CTAs fixos */}
       <div className="flex items-center" style={{ gap: 16 }}>
         <motion.button
           whileTap={{ scale: 0.97 }}
