@@ -18,37 +18,37 @@ export default function ParaVoceHub() {
   const tiles = [
     {
       title: 'Crédito Pessoal',
-      desc: 'Empréstimo rápido \ndireto no totem.',
+      desc: 'Empréstimo rápido direto no totem.',
       onClick: () => navigate('/caixa/credito'),
       disabled: false,
     },
     {
       title: 'Cartão de Crédito',
-      desc: 'Solicite seu \ncartão Caixa.',
+      desc: 'Solicite seu cartão Caixa.',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Financiamento Imobiliário',
-      desc: 'Realize o sonho \nda casa própria.',
+      desc: 'Realize o sonho da casa própria.',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Empréstimo Consignado',
-      desc: 'Crédito com \ndesconto em folha.',
+      desc: 'Crédito com desconto em folha.',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Abrir Conta',
-      desc: 'Conta corrente \nou poupança Caixa.',
+      desc: 'Conta corrente ou poupança Caixa.',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Caixa Tem',
-      desc: 'Banco digital \nda Caixa.',
+      desc: 'Banco digital da Caixa.',
       onClick: () => {},
       disabled: true,
     },
@@ -115,7 +115,7 @@ export default function ParaVoceHub() {
               whileHover={tile.disabled ? {} : { y: -4, boxShadow: '0px 6px 16px rgba(0,0,0,0.14)' }}
               disabled={tile.disabled}
               onClick={tile.disabled ? undefined : tile.onClick}
-              className="rounded-lg text-left bg-white"
+              className="rounded-lg text-left bg-white relative"
               style={{
                 borderRadius: 8,
                 padding: '24px 24px',
@@ -130,6 +130,25 @@ export default function ParaVoceHub() {
                 minWidth: 0,
               }}
             >
+              {/* Badge "Em breve" no topo direito */}
+              {tile.disabled && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: 16, right: 16,
+                    fontSize: 12, fontWeight: 700,
+                    color: '#6B7280',
+                    backgroundColor: '#EFF5F9',
+                    padding: '4px 10px',
+                    borderRadius: 999,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}
+                >
+                  Em breve
+                </span>
+              )}
+
               {/* Zona do círculo — encolhe pra caber */}
               <div style={{
                 flex: 1, minHeight: 0,
@@ -145,18 +164,19 @@ export default function ParaVoceHub() {
               </div>
 
               {/* Texto */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
                 <span className="font-semibold" style={{ fontSize: 26, color: '#0066B3', lineHeight: '120%' }}>
                   {tile.title}
                 </span>
-                <span className="font-normal" style={{ fontSize: 17, color: '#6B7280', lineHeight: '145%', whiteSpace: 'pre-line' }}>
+                <span
+                  className="font-normal"
+                  style={{
+                    fontSize: 16, color: '#6B7280', lineHeight: '145%',
+                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                  }}
+                >
                   {tile.desc}
                 </span>
-                {tile.disabled && (
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 2 }}>
-                    Em breve
-                  </span>
-                )}
               </div>
             </motion.button>
           ))}
