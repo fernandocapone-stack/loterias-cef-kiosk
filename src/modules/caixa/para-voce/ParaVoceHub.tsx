@@ -91,18 +91,18 @@ export default function ParaVoceHub() {
         <div style={{ width: 280, height: 80, flexShrink: 0 }} />
       </div>
 
-      {/* ── Grid 3×2 ── */}
+      {/* ── Grid 3×2 — preenche o container sem scroll ── */}
       <div
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-hidden"
         style={{ padding: 24 }}
       >
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gridAutoRows: '1fr',
+            gridTemplateRows: 'repeat(2, 1fr)',
             gap: 24,
-            minHeight: '100%',
+            height: '100%',
           }}
         >
           {tiles.map((tile, idx) => (
@@ -118,32 +118,42 @@ export default function ParaVoceHub() {
               className="rounded-lg text-left bg-white"
               style={{
                 borderRadius: 8,
-                padding: '40px 24px',
+                padding: '24px 24px',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
                 alignItems: 'stretch',
-                gap: 32,
+                gap: 16,
                 cursor: tile.disabled ? 'default' : 'pointer',
                 boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
                 overflow: 'hidden',
+                minHeight: 0,
+                minWidth: 0,
               }}
             >
-              {/* Zona do círculo (placeholder até receber ilustrações) */}
-              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 }}>
-                <div style={{ width: 220, height: 220, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
+              {/* Zona do círculo — encolhe pra caber */}
+              <div style={{
+                flex: 1, minHeight: 0,
+                position: 'relative',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <div style={{
+                  width: 'min(180px, 70%)',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '50%',
+                  backgroundColor: '#EFF5F9',
+                }} />
               </div>
 
               {/* Texto */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <span className="font-semibold" style={{ fontSize: 28, color: '#0066B3', lineHeight: '120%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <span className="font-semibold" style={{ fontSize: 26, color: '#0066B3', lineHeight: '120%' }}>
                   {tile.title}
                 </span>
-                <span className="font-normal" style={{ fontSize: 20, color: '#6B7280', lineHeight: '150%', whiteSpace: 'pre-line' }}>
+                <span className="font-normal" style={{ fontSize: 17, color: '#6B7280', lineHeight: '145%', whiteSpace: 'pre-line' }}>
                   {tile.desc}
                 </span>
                 {tile.disabled && (
-                  <span style={{ fontSize: 14, fontWeight: 600, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 4 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 2 }}>
                     Em breve
                   </span>
                 )}
