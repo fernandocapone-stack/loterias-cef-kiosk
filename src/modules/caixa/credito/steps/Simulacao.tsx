@@ -103,28 +103,34 @@ export default function Simulacao() {
         />
       </div>
 
-      {/* 3 resultados em linha — flat, sem container */}
+      {/* 3 resultados em um único container branco */}
       <div
-        className="flex"
         style={{
-          gap: 24,
-          padding: '4px 24px',
+          backgroundColor: '#FFFFFF',
+          borderRadius: 8,
+          padding: '32px 40px',
+          display: 'flex', flexDirection: 'column', gap: 20,
         }}
       >
-        <ResultColumn label="Parcela mensal" value={brl(parcela)} />
-        <ResultColumn label="Juros totais"   value={brl(juros)} />
-        <ResultColumn label="Total a pagar"  value={brl(total)} />
-      </div>
+        <div className="flex" style={{ gap: 40 }}>
+          <ResultColumn label="Parcela mensal" value={brl(parcela)} />
+          <Sep />
+          <ResultColumn label="Juros totais"   value={brl(juros)} />
+          <Sep />
+          <ResultColumn label="Total a pagar"  value={brl(total)} />
+        </div>
 
-      {/* Taxa / CET / DDA — texto inline, sem container */}
-      <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <span style={{ fontSize: 16, color: '#374151', lineHeight: '150%' }}>
-          <strong style={{ fontWeight: 700 }}>Taxa de juros:</strong>{' '}
-          {(TAXA_MENSAL * 100).toFixed(2).replace('.', ',')}% a.m. (CET {(CET_ANUAL * 100).toFixed(2).replace('.', ',')}% a.a.)
-        </span>
-        <span style={{ fontSize: 14, color: '#6B7280', lineHeight: '150%' }}>
-          O primeiro pagamento será debitado 30 dias após o desembolso via Débito Direto Autorizado (DDA).
-        </span>
+        {/* Taxa / CET / DDA — dentro do mesmo container, separados por linha sutil */}
+        <div style={{ height: 1, backgroundColor: 'rgba(0,0,0,0.08)' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <span style={{ fontSize: 16, color: '#374151', lineHeight: '150%' }}>
+            <strong style={{ fontWeight: 700 }}>Taxa de juros:</strong>{' '}
+            {(TAXA_MENSAL * 100).toFixed(2).replace('.', ',')}% a.m. (CET {(CET_ANUAL * 100).toFixed(2).replace('.', ',')}% a.a.)
+          </span>
+          <span style={{ fontSize: 14, color: '#6B7280', lineHeight: '150%' }}>
+            O primeiro pagamento será debitado 30 dias após o desembolso via Débito Direto Autorizado (DDA).
+          </span>
+        </div>
       </div>
 
       {/* CTAs */}
@@ -136,7 +142,7 @@ export default function Simulacao() {
           style={{
             flex: 1,
             height: 80, gap: 12, padding: '0 24px',
-            fontSize: 20, color: '#ED1C24',
+            fontSize: 20, color: '#6B7280',
             backgroundColor: '#FFFFFF',
             border: '2px solid #D0E0E3',
             borderRadius: 8,
@@ -188,16 +194,16 @@ function SliderField({
         minWidth: 0,
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
-        padding: '20px 24px',
-        display: 'flex', flexDirection: 'column', gap: 12,
+        padding: '32px 40px',
+        display: 'flex', flexDirection: 'column', gap: 24,
       }}
     >
       <div className="flex items-baseline justify-between">
-        <span style={{ fontSize: 18, fontWeight: 600, color: '#374151', lineHeight: '120%' }}>
+        <span style={{ fontSize: 20, fontWeight: 600, color: '#374151', lineHeight: '120%' }}>
           {label}
         </span>
         <span style={{
-          fontSize: 28, fontWeight: 700, color: '#0066B3',
+          fontSize: 32, fontWeight: 700, color: '#0066B3',
           fontVariantNumeric: 'tabular-nums', lineHeight: '120%',
         }}>
           {format(value)}
@@ -216,10 +222,10 @@ function SliderField({
       />
 
       <div className="flex items-center justify-between">
-        <span style={{ fontSize: 14, color: '#9CA3AF', fontVariantNumeric: 'tabular-nums' }}>
+        <span style={{ fontSize: 15, color: '#9CA3AF', fontVariantNumeric: 'tabular-nums' }}>
           {format(min)}
         </span>
-        <span style={{ fontSize: 14, color: '#9CA3AF', fontVariantNumeric: 'tabular-nums' }}>
+        <span style={{ fontSize: 15, color: '#9CA3AF', fontVariantNumeric: 'tabular-nums' }}>
           {format(max)}
         </span>
       </div>
@@ -227,10 +233,10 @@ function SliderField({
   );
 }
 
-/* ── ResultColumn — coluna de resultado flat (sem container) ───────── */
+/* ── ResultColumn — coluna de resultado dentro do container compartilhado ── */
 function ResultColumn({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col" style={{ flex: 1, gap: 4 }}>
+    <div className="flex flex-col" style={{ flex: 1, gap: 6 }}>
       <span style={{
         fontSize: 13, fontWeight: 700, color: '#6B7280',
         letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -245,4 +251,9 @@ function ResultColumn({ label, value }: { label: string; value: string }) {
       </span>
     </div>
   );
+}
+
+/* Separador vertical entre colunas de resultado */
+function Sep() {
+  return <div style={{ width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(0,0,0,0.08)' }} />;
 }
