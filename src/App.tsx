@@ -1,4 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import CreditoShell from './modules/caixa/credito/CreditoShell';
+import CreditoAcesso from './modules/caixa/credito/steps/Acesso';
+import CreditoVerificacao from './modules/caixa/credito/steps/Verificacao';
+import CreditoDados from './modules/caixa/credito/steps/Dados';
+import CreditoSimulacao from './modules/caixa/credito/steps/Simulacao';
+import CreditoContrato from './modules/caixa/credito/steps/Contrato';
+import CreditoAssinatura from './modules/caixa/credito/steps/Assinatura';
+import CreditoConclusao from './modules/caixa/credito/steps/Conclusao';
 import { AnimatePresence } from 'framer-motion';
 import KioskShell from './app/KioskShell';
 import HomeScreen from './modules/home/HomeScreen';
@@ -51,8 +59,18 @@ export default function App() {
           <Route path="/caixa" element={<CaixaHub />} />
           <Route path="/caixa/outros" element={<ComingSoon />} />
           <Route path="/caixa/para-voce" element={<ParaVoceHub />} />
-          {/* Stub do fluxo de crédito — substituído nas próximas fases */}
-          <Route path="/caixa/credito" element={<ComingSoon />} />
+
+          {/* ── Crédito Pessoal — shell + 7 sub-telas ── */}
+          <Route path="/caixa/credito" element={<CreditoShell />}>
+            <Route index element={<Navigate to="acesso" replace />} />
+            <Route path="acesso"      element={<CreditoAcesso />} />
+            <Route path="verificacao" element={<CreditoVerificacao />} />
+            <Route path="dados"       element={<CreditoDados />} />
+            <Route path="simulacao"   element={<CreditoSimulacao />} />
+            <Route path="contrato"    element={<CreditoContrato />} />
+            <Route path="assinatura"  element={<CreditoAssinatura />} />
+            <Route path="conclusao"   element={<CreditoConclusao />} />
+          </Route>
 
           {/* ── Lotéricas shell (thin wrapper) ── */}
           <Route path="/caixa/loterias" element={<LoteriasShell />}>
