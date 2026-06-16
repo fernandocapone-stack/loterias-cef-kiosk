@@ -10,10 +10,8 @@ import { brl } from '../../utils/currency';
  * 3.B Loja — Escanear produtos.
  *
  * Layout 2 colunas:
- *   ESQUERDA — viewfinder escuro (mesmo padrão do EscanearConta/LerCaderneta)
- *              com linha de scan em loop + botão "Simular leitura"
- *   DIREITA  — lista cumulativa de produtos escaneados (com stepper
- *              de quantidade), subtotal e CTAs Finalizar / Cancelar.
+ *   ESQUERDA — lista cumulativa de produtos escaneados (flex: 1, ocupa a maior parte)
+ *   DIREITA  — viewfinder compacto + botão "Simular leitura" (largura fixa)
  *
  * Cada "leitura" sorteia um produto aleatório do catálogo e adiciona ao
  * lojaStore (mesmo carrinho usado pela navegação por Categorias).
@@ -22,8 +20,8 @@ import { brl } from '../../utils/currency';
  * Cancelar  → /loja (volta para Conveniência, mantém o carrinho intacto).
  */
 
-const VIEWFINDER_W = 640;
-const VIEWFINDER_H = 420;
+const VIEWFINDER_W = 380;
+const VIEWFINDER_H = 260;
 const ACCENT = '#F39200';
 
 export default function EscanearProdutoScreen() {
@@ -92,95 +90,12 @@ export default function EscanearProdutoScreen() {
       {/* ── Body — 2 colunas ── */}
       <div className="flex flex-1 overflow-hidden" style={{ gap: 24, padding: 24 }}>
 
-        {/* Coluna esquerda — viewfinder + CTA simular */}
-        <div className="flex flex-col items-center justify-center" style={{ flex: 1, gap: 24, minWidth: 0 }}>
-          <div className="flex flex-col items-center text-center" style={{ gap: 8, maxWidth: 640 }}>
-            <span style={{ fontSize: 28, fontWeight: 600, color: '#005DA4', lineHeight: '120%' }}>
-              Aponte o código de barras
-            </span>
-            <span style={{ fontSize: 18, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
-              Mantenha o produto dentro da área marcada para a leitura automática.
-            </span>
-          </div>
-
-          {/* Viewfinder */}
-          <div
-            style={{
-              position: 'relative',
-              width: VIEWFINDER_W,
-              height: VIEWFINDER_H,
-              backgroundColor: '#1F2937',
-              borderRadius: 16,
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute', inset: 0,
-                background: 'radial-gradient(ellipse at center, #2A3848 0%, #111827 100%)',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute', inset: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column', gap: 16,
-            }}>
-              <PackageSearch style={{ width: 88, height: 88, color: 'rgba(255,255,255,0.25)' }} strokeWidth={1.25} />
-              <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}>
-                Produto / código de barras
-              </span>
-            </div>
-
-            <CornerBrackets cor={ACCENT} />
-
-            {/* Linha de scan em loop contínuo */}
-            <motion.div
-              animate={{ top: [0, VIEWFINDER_H - 4, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              style={{
-                position: 'absolute',
-                left: 0, right: 0,
-                height: 4,
-                background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)`,
-                boxShadow: `0 0 24px 4px ${ACCENT}AA`,
-                pointerEvents: 'none',
-              }}
-            />
-            <motion.div
-              animate={{ opacity: [0, 0.15, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
-              style={{
-                position: 'absolute', inset: 0,
-                background: `radial-gradient(ellipse at center, ${ACCENT}33 0%, transparent 70%)`,
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-
-          {/* Simular leitura — em produção, isso seria automático */}
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={simularLeitura}
-            className="flex items-center justify-center font-semibold rounded-lg"
-            style={{
-              height: 80, gap: 16, padding: '0 48px',
-              fontSize: 20, color: '#FFFFFF',
-              backgroundColor: '#00AB67',
-              borderRadius: 8,
-              minWidth: 320,
-            }}
-          >
-            <ScanLine style={{ width: 28, height: 28 }} strokeWidth={2} />
-            Simular leitura
-          </motion.button>
-        </div>
-
-        {/* Coluna direita — lista cumulativa + finalizar */}
+        {/* Coluna esquerda — lista cumulativa + finalizar (ocupa a maior parte) */}
         <div
           className="flex flex-col"
           style={{
-            width: 460,
+            flex: 1,
+            minWidth: 0,
             backgroundColor: '#FFFFFF',
             borderRadius: 8,
             overflow: 'hidden',
@@ -189,10 +104,10 @@ export default function EscanearProdutoScreen() {
         >
           {/* Header da lista */}
           <div className="flex items-baseline justify-between shrink-0" style={{ padding: '20px 24px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-            <span style={{ fontSize: 20, fontWeight: 700, color: '#0066B3' }}>
+            <span style={{ fontSize: 22, fontWeight: 700, color: '#0066B3' }}>
               Produtos lidos
             </span>
-            <span style={{ fontSize: 16, fontWeight: 600, color: '#6B7280' }}>
+            <span style={{ fontSize: 17, fontWeight: 600, color: '#6B7280' }}>
               {totalItens} {totalItens === 1 ? 'item' : 'itens'}
             </span>
           </div>
@@ -201,9 +116,12 @@ export default function EscanearProdutoScreen() {
           <div className="flex-1 overflow-y-auto" style={{ padding: '8px 16px' }}>
             {itens.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center" style={{ gap: 12, padding: 24 }}>
-                <ShoppingCart style={{ width: 56, height: 56, color: '#D1D5DB' }} strokeWidth={1.5} />
-                <span style={{ fontSize: 16, color: '#9CA3AF', fontWeight: 500, textAlign: 'center' }}>
+                <ShoppingCart style={{ width: 64, height: 64, color: '#D1D5DB' }} strokeWidth={1.5} />
+                <span style={{ fontSize: 18, color: '#9CA3AF', fontWeight: 500, textAlign: 'center' }}>
                   Nenhum produto lido ainda.
+                </span>
+                <span style={{ fontSize: 15, color: '#D1D5DB', textAlign: 'center' }}>
+                  Aponte o produto para o leitor ao lado.
                 </span>
               </div>
             ) : (
@@ -222,39 +140,39 @@ export default function EscanearProdutoScreen() {
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.18 }}
                       style={{
-                        padding: '12px 12px',
+                        padding: '14px 12px',
                         borderRadius: 8,
-                        display: 'flex', alignItems: 'center', gap: 12,
+                        display: 'flex', alignItems: 'center', gap: 16,
                       }}
                     >
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
-                          fontSize: 15, fontWeight: 600, color: '#374151',
+                          fontSize: 17, fontWeight: 600, color: '#374151',
                           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                         }}>
                           {it.nome}
                         </div>
-                        <div style={{ fontSize: 13, color: '#6B7280', fontVariantNumeric: 'tabular-nums' }}>
+                        <div style={{ fontSize: 14, color: '#6B7280', fontVariantNumeric: 'tabular-nums', marginTop: 2 }}>
                           {brl(it.preco)} · subtotal <strong style={{ color: '#374151', fontWeight: 700 }}>{brl(it.preco * it.quantidade)}</strong>
                         </div>
                       </div>
 
                       {/* Stepper qty */}
-                      <div className="flex items-center" style={{ gap: 4 }}>
+                      <div className="flex items-center" style={{ gap: 6 }}>
                         <motion.button
                           whileTap={{ scale: 0.9 }}
                           onClick={() => setQtd(it.id, it.quantidade - 1)}
                           style={{
-                            width: 32, height: 32, borderRadius: 6,
+                            width: 36, height: 36, borderRadius: 6,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             backgroundColor: '#EFF5F9', border: 'none', color: '#0066B3',
                           }}
                         >
-                          <Minus style={{ width: 16, height: 16 }} strokeWidth={2.5} />
+                          <Minus style={{ width: 18, height: 18 }} strokeWidth={2.5} />
                         </motion.button>
                         <span style={{
-                          minWidth: 28, textAlign: 'center',
-                          fontSize: 16, fontWeight: 700, color: '#374151',
+                          minWidth: 32, textAlign: 'center',
+                          fontSize: 18, fontWeight: 700, color: '#374151',
                           fontVariantNumeric: 'tabular-nums',
                         }}>
                           {it.quantidade}
@@ -263,12 +181,12 @@ export default function EscanearProdutoScreen() {
                           whileTap={{ scale: 0.9 }}
                           onClick={() => setQtd(it.id, it.quantidade + 1)}
                           style={{
-                            width: 32, height: 32, borderRadius: 6,
+                            width: 36, height: 36, borderRadius: 6,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             backgroundColor: '#EFF5F9', border: 'none', color: '#0066B3',
                           }}
                         >
-                          <Plus style={{ width: 16, height: 16 }} strokeWidth={2.5} />
+                          <Plus style={{ width: 18, height: 18 }} strokeWidth={2.5} />
                         </motion.button>
                       </div>
 
@@ -276,12 +194,12 @@ export default function EscanearProdutoScreen() {
                         whileTap={{ scale: 0.9 }}
                         onClick={() => removeItem(it.id)}
                         style={{
-                          width: 28, height: 28, borderRadius: 999,
+                          width: 32, height: 32, borderRadius: 999,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           backgroundColor: 'transparent', border: 'none', color: '#9CA3AF',
                         }}
                       >
-                        <X style={{ width: 16, height: 16 }} strokeWidth={2} />
+                        <X style={{ width: 18, height: 18 }} strokeWidth={2} />
                       </motion.button>
                     </motion.div>
                   );
@@ -293,9 +211,9 @@ export default function EscanearProdutoScreen() {
           {/* Rodapé — subtotal + CTAs fixos */}
           <div style={{ padding: 20, borderTop: '1px solid rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div className="flex items-baseline justify-between">
-              <span style={{ fontSize: 18, fontWeight: 600, color: '#6B7280' }}>Subtotal</span>
+              <span style={{ fontSize: 20, fontWeight: 600, color: '#6B7280' }}>Subtotal</span>
               <span style={{
-                fontSize: 28, fontWeight: 700, color: '#00AB67',
+                fontSize: 32, fontWeight: 700, color: '#00AB67',
                 fontVariantNumeric: 'tabular-nums',
               }}>
                 {brl(totalValor)}
@@ -335,6 +253,97 @@ export default function EscanearProdutoScreen() {
             </motion.button>
           </div>
         </div>
+
+        {/* Coluna direita — viewfinder compacto + CTA simular */}
+        <div
+          className="flex flex-col items-center justify-center"
+          style={{
+            width: VIEWFINDER_W + 40,
+            flexShrink: 0,
+            gap: 20,
+          }}
+        >
+          <div className="flex flex-col items-center text-center" style={{ gap: 6 }}>
+            <span style={{ fontSize: 22, fontWeight: 600, color: '#005DA4', lineHeight: '120%' }}>
+              Aponte o código de barras
+            </span>
+            <span style={{ fontSize: 15, fontWeight: 400, color: '#6B7280', lineHeight: '150%' }}>
+              Mantenha o produto dentro da área marcada.
+            </span>
+          </div>
+
+          {/* Viewfinder compacto */}
+          <div
+            style={{
+              position: 'relative',
+              width: VIEWFINDER_W,
+              height: VIEWFINDER_H,
+              backgroundColor: '#1F2937',
+              borderRadius: 16,
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute', inset: 0,
+                background: 'radial-gradient(ellipse at center, #2A3848 0%, #111827 100%)',
+              }}
+            />
+
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexDirection: 'column', gap: 12,
+            }}>
+              <PackageSearch style={{ width: 64, height: 64, color: 'rgba(255,255,255,0.25)' }} strokeWidth={1.25} />
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+                Produto / código de barras
+              </span>
+            </div>
+
+            <CornerBrackets cor={ACCENT} />
+
+            {/* Linha de scan em loop contínuo */}
+            <motion.div
+              animate={{ top: [0, VIEWFINDER_H - 4, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{
+                position: 'absolute',
+                left: 0, right: 0,
+                height: 4,
+                background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)`,
+                boxShadow: `0 0 24px 4px ${ACCENT}AA`,
+                pointerEvents: 'none',
+              }}
+            />
+            <motion.div
+              animate={{ opacity: [0, 0.15, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity }}
+              style={{
+                position: 'absolute', inset: 0,
+                background: `radial-gradient(ellipse at center, ${ACCENT}33 0%, transparent 70%)`,
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Simular leitura */}
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={simularLeitura}
+            className="flex items-center justify-center font-semibold rounded-lg"
+            style={{
+              height: 80, gap: 16, padding: '0 40px',
+              fontSize: 20, color: '#FFFFFF',
+              backgroundColor: '#00AB67',
+              borderRadius: 8,
+              width: '100%',
+            }}
+          >
+            <ScanLine style={{ width: 28, height: 28 }} strokeWidth={2} />
+            Simular leitura
+          </motion.button>
+        </div>
       </div>
     </div>
   );
@@ -342,13 +351,13 @@ export default function EscanearProdutoScreen() {
 
 /* Brackets dos 4 cantos do viewfinder */
 function CornerBrackets({ cor }: { cor: string }) {
-  const L = 48;
+  const L = 40;
   const T = 4;
   const corner = (vert: 'top' | 'bottom', horiz: 'left' | 'right'): React.CSSProperties => ({
     position: 'absolute',
     width: L, height: L,
-    [vert]: 16,
-    [horiz]: 16,
+    [vert]: 12,
+    [horiz]: 12,
     [`border${vert === 'top' ? 'Top' : 'Bottom'}`]: `${T}px solid ${cor}`,
     [`border${horiz === 'left' ? 'Left' : 'Right'}`]: `${T}px solid ${cor}`,
     borderRadius:
