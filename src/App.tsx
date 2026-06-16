@@ -40,6 +40,7 @@ import ConvenienciaScreen from './modules/loja/ConvenienciaScreen';
 import CategoriasScreen from './modules/loja/CategoriasScreen';
 import CategoriaExpandidaScreen from './modules/loja/CategoriaExpandidaScreen';
 import LojaCarrinhoScreen from './modules/loja/LojaCarrinhoScreen';
+import EscanearProdutoScreen from './modules/loja/EscanearProdutoScreen';
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
           <Route path="/loja/categorias" element={<CategoriasScreen />} />
           <Route path="/loja/categorias/:id" element={<CategoriaExpandidaScreen />} />
           <Route path="/loja/carrinho" element={<LojaCarrinhoScreen />} />
+          <Route path="/loja/escanear" element={<EscanearProdutoScreen />} />
 
           {/* ── Caixa hub ── */}
           <Route path="/caixa" element={<CaixaHub />} />

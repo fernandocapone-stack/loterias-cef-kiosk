@@ -27,9 +27,9 @@ export default function ConvenienciaScreen() {
     {
       title:    'Escanear produtos',
       desc:     'Já tenho os produtos em mãos.',
-      disabled: true,
+      disabled: false,
       imagem:   '/images/servicos/cat-escanear.png',
-      onClick:  () => {},
+      onClick:  () => navigate('/loja/escanear'),
     },
   ];
 
