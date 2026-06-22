@@ -65,7 +65,7 @@ export default function ResultadosTab() {
               onClick={() => setSelected(mod.id)}
               className="text-left flex flex-col bg-white shrink-0"
               style={{
-                width: 330,
+                width: 'calc((100% - 4 * 24px) / 5)',
                 padding: '40px 32px',
                 gap: 40,
                 boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.09)',
