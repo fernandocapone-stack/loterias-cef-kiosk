@@ -97,17 +97,21 @@ export default function LotericaHome() {
                 overflow: 'hidden',
               }}
             >
-              {/* Zona da imagem */}
-              <div style={{ position: 'relative', flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
-                {tile.imagem && (
-                  <img
-                    src={tile.imagem}
-                    alt=""
-                    draggable={false}
-                    style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
-                  />
-                )}
+              {/* Zona da imagem — flex:1 centraliza, container fixo garante tamanho igual */}
+              <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'relative', width: 360, height: 360, flexShrink: 0 }}>
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
+                  </div>
+                  {tile.imagem && (
+                    <img
+                      src={tile.imagem}
+                      alt=""
+                      draggable={false}
+                      style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }}
+                    />
+                  )}
+                </div>
               </div>
 
               {/* Texto */}
