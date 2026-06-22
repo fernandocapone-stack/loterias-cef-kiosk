@@ -97,8 +97,8 @@ export default function LotericaHome() {
                 overflow: 'hidden',
               }}
             >
-              {/* Zona da imagem — altura fixa para não inflar */}
-              <div style={{ position: 'relative', height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              {/* Zona da imagem */}
+              <div style={{ position: 'relative', flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
                 {tile.imagem && (
                   <img

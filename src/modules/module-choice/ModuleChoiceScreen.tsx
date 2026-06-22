@@ -99,12 +99,11 @@ export default function ModuleChoiceScreen() {
               <div
                 style={{
                   position: 'relative',
-                  width: '100%',
-                  height: 400,
+                  flex: 1,
+                  minHeight: 0,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  flexShrink: 0,
                 }}
               >
                 <div
