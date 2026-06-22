@@ -19,36 +19,42 @@ export default function ParaVoceHub() {
     {
       title: 'Crédito Pessoal',
       desc: 'Empréstimo rápido direto no totem.',
+      imagem: '/images/servicos/para-voce-credito.png',
       onClick: () => navigate('/caixa/credito'),
       disabled: false,
     },
     {
       title: 'Pagar Conta',
       desc: 'Contas e boletos bancários.',
+      imagem: '/images/servicos/para-voce-pagar-conta-62f038.png',
       onClick: () => navigate('/caixa/para-voce/pagar-conta'),
       disabled: false,
     },
     {
       title: 'Cartão de Crédito',
       desc: 'Solicite seu cartão Caixa.',
+      imagem: '/images/servicos/para-voce-cartao.png',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Financiamento Imobiliário',
       desc: 'Realize o sonho da casa própria.',
+      imagem: '/images/servicos/para-voce-imobiliario.png',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Empréstimo Consignado',
       desc: 'Crédito com desconto em folha.',
+      imagem: '/images/servicos/para-voce-emprestimo.png',
       onClick: () => {},
       disabled: true,
     },
     {
       title: 'Abrir Conta',
       desc: 'Conta corrente ou poupança Caixa.',
+      imagem: '/images/servicos/para-voce-abrir-conta.png',
       onClick: () => {},
       disabled: true,
     },
@@ -149,18 +155,34 @@ export default function ParaVoceHub() {
                 </span>
               )}
 
-              {/* Zona do círculo — encolhe pra caber */}
+              {/* Zona da imagem — círculo + ilustração */}
               <div style={{
                 flex: 1, minHeight: 0,
                 position: 'relative',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <div style={{
-                  width: 'min(180px, 70%)',
+                  position: 'absolute',
+                  width: 'min(160px, 65%)',
                   aspectRatio: '1 / 1',
                   borderRadius: '50%',
                   backgroundColor: '#EFF5F9',
                 }} />
+                {tile.imagem && (
+                  <img
+                    src={tile.imagem}
+                    alt=""
+                    draggable={false}
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      pointerEvents: 'none',
+                      userSelect: 'none',
+                    }}
+                  />
+                )}
               </div>
 
               {/* Texto */}

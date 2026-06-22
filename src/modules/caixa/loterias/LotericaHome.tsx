@@ -75,8 +75,8 @@ export default function LotericaHome() {
         className="flex flex-col flex-1"
         style={{ padding: 24, gap: 32 }}
       >
-        {/* 4-tile row */}
-        <div className="flex flex-1" style={{ gap: 24 }}>
+        {/* 2-tile row — centralizado com largura máxima por card */}
+        <div className="flex flex-1 justify-center" style={{ gap: 24 }}>
           {tiles.map((tile, idx) => (
             <motion.button
               key={tile.title}
@@ -85,7 +85,7 @@ export default function LotericaHome() {
               transition={{ delay: idx * 0.05, duration: 0.2 }}
               whileTap={{ scale: 0.985 }}
               onClick={tile.onClick}
-              className="flex-1 rounded-lg text-left"
+              className="rounded-lg text-left"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: 8,
@@ -93,12 +93,14 @@ export default function LotericaHome() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                alignItems: 'stretch',
+                alignItems: 'center',
                 overflow: 'hidden',
+                width: 520,
+                flexShrink: 0,
               }}
             >
-              {/* Zona da imagem — círculo + ilustração 3D */}
-              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {/* Zona da imagem — tamanho fixo */}
+              <div style={{ position: 'relative', width: 360, height: 360, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <div style={{ position: 'absolute', width: 262, height: 262, borderRadius: '50%', backgroundColor: '#EFF5F9' }} />
                 {tile.imagem && (
                   <img
@@ -111,7 +113,7 @@ export default function LotericaHome() {
               </div>
 
               {/* Texto */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 32 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 32, alignSelf: 'stretch' }}>
                 <span className="font-semibold" style={{ fontSize: 32, color: '#0066B3', lineHeight: '120%' }}>
                   {tile.title}
                 </span>
