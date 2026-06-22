@@ -26,18 +26,6 @@ export default function LotericaHome() {
       onClick: () => navigate('/caixa/loterias/apostar'),
     },
     {
-      title: 'Pagar Conta',
-      desc: 'Contas e boletos.',
-      imagem: '/images/servicos/loterica-pagarconta-62f038.png',
-      onClick: () => navigate('/caixa/loterias/pagar'),
-    },
-    {
-      title: 'Recarga Celular',
-      desc: 'Recarregue seu celular.',
-      imagem: '/images/servicos/loterica-recarga.png',
-      onClick: () => navigate('/caixa/loterias/recarregar'),
-    },
-    {
       title: 'Ver Resultados',
       desc: 'Sorteios recentes',
       imagem: '/images/servicos/loterica-resultados.png',

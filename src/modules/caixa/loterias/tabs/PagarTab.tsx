@@ -36,7 +36,7 @@ export default function PagarTab() {
       <div className="flex items-center shrink-0" style={{ gap: 24, padding: 24, backgroundColor: '#0066B3' }}>
         <motion.button
           whileTap={{ scale: 0.96 }}
-          onClick={() => navigate('/caixa/loterias')}
+          onClick={() => navigate('/caixa/para-voce')}
           className="flex items-center justify-center rounded-lg shrink-0"
           style={{ width: 280, height: 80, backgroundColor: '#004B8B', borderRadius: 8, gap: 8, padding: '12px 24px 12px 16px' }}
         >

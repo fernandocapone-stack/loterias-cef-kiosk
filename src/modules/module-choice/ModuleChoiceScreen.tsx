@@ -1,10 +1,6 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
-import { useSession } from '../../store/sessionStore';
-import { useLojaStore } from '../../store/lojaStore';
-import CartClearWarningModal from '../../components/feedback/CartClearWarningModal';
 
 /**
  * 2. Escolha o Serviço — Figma (194:238), canvas 1440×900.
@@ -14,73 +10,24 @@ import CartClearWarningModal from '../../components/feedback/CartClearWarningMod
  *  - Header: row, gap:24, padding:24
  *      Back 280×80 bg #004B8B  |  "Escolha o serviço" 44px SemiBold white  |  280×80 placeholder
  *  - Content: col, gap:32, padding: 24
- *      Row of 3 white tiles (fill×fill)
- *  - Acessibilidade: row at bottom
- *
- * Aviso de carrinho: ao trocar de módulo com itens no carrinho do outro módulo.
+ *      Row of 2 white tiles (fill×fill)
  */
 
-type TargetModule = 'loja' | 'loterica';
-
-interface PendingNav {
-  path:   string;
-  module: TargetModule;
-}
-
 export default function ModuleChoiceScreen() {
-  const navigate       = useNavigate();
-  const apostasCount   = useSession((s) => s.apostas.length);
-  const resetSession   = useSession((s) => s.reset);
-  const lojaCount      = useLojaStore((s) => s.totalItens());
-  const clearLoja      = useLojaStore((s) => s.clear);
-
-  const [pendingNav, setPendingNav] = useState<PendingNav | null>(null);
-
-  /** Intercepta navegação — mostra aviso se o módulo de destino tem conflito de carrinho */
-  const handleNavigate = (path: string, module: TargetModule) => {
-    const hasConflict =
-      (module === 'loja'     && apostasCount > 0) ||
-      (module === 'loterica' && lojaCount    > 0);
-
-    if (hasConflict) {
-      setPendingNav({ path, module });
-    } else {
-      navigate(path);
-    }
-  };
-
-  const confirmNav = () => {
-    if (!pendingNav) return;
-    if (pendingNav.module === 'loja')     resetSession();
-    if (pendingNav.module === 'loterica') clearLoja();
-    navigate(pendingNav.path);
-    setPendingNav(null);
-  };
+  const navigate = useNavigate();
 
   const tiles = [
     {
-      title:    'Conveniência',
-      desc:     'Produtos da Loja\nde Conveniência.',
-      module:   'loja' as TargetModule,
-      path:     '/loja',
-      disabled: false,
-      imagem:   '/images/servicos/conveniencia.png',
+      title:  'Lotérica',
+      desc:   'Apostas e resultados\ndas Loterias.',
+      path:   '/caixa/loterias',
+      imagem: '/images/servicos/loterica.png',
     },
     {
-      title:    'Lotérica',
-      desc:     'Apostas, pagamentos\ne recargas.',
-      module:   'loterica' as TargetModule,
-      path:     '/caixa/loterias',
-      disabled: false,
-      imagem:   '/images/servicos/loterica.png',
-    },
-    {
-      title:    'Caixa',
-      desc:     'Serviços e produtos\nda Caixa em Geral.',
-      module:   null,
-      path:     '/caixa',
-      disabled: false,
-      imagem:   '/images/servicos/caixa.png',
+      title:  'Caixa',
+      desc:   'Serviços e produtos\nda Caixa em Geral.',
+      path:   '/caixa',
+      imagem: '/images/servicos/caixa.png',
     },
   ];
 
@@ -126,7 +73,6 @@ export default function ModuleChoiceScreen() {
         className="flex flex-col flex-1"
         style={{ padding: 24, gap: 32 }}
       >
-        {/* Tiles row */}
         <div className="flex flex-1" style={{ gap: 24 }}>
           {tiles.map((tile, idx) => (
             <motion.button
@@ -134,21 +80,12 @@ export default function ModuleChoiceScreen() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06, duration: 0.2 }}
-              whileTap={tile.disabled ? {} : { scale: 0.985 }}
-              disabled={tile.disabled}
-              onClick={
-                tile.disabled
-                  ? undefined
-                  : tile.module
-                    ? () => handleNavigate(tile.path, tile.module!)
-                    : () => navigate(tile.path)
-              }
+              whileTap={{ scale: 0.985 }}
+              onClick={() => navigate(tile.path)}
               className="flex-1 rounded-lg text-left"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: 8,
-                opacity: tile.disabled ? 0.5 : 1,
-                cursor: tile.disabled ? 'default' : 'pointer',
                 boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -170,7 +107,6 @@ export default function ModuleChoiceScreen() {
                   flexShrink: 0,
                 }}
               >
-                {/* Círculo de fundo */}
                 <div
                   style={{
                     position: 'absolute',
@@ -180,7 +116,6 @@ export default function ModuleChoiceScreen() {
                     backgroundColor: '#EFF5F9',
                   }}
                 />
-                {/* Ilustração 3D */}
                 {tile.imagem && (
                   <img
                     src={tile.imagem}
@@ -210,19 +145,7 @@ export default function ModuleChoiceScreen() {
             </motion.button>
           ))}
         </div>
-
       </div>
-
-      {/* ── Modal de aviso de carrinho ── */}
-      <AnimatePresence>
-        {pendingNav && (
-          <CartClearWarningModal
-            targetModule={pendingNav.module}
-            onConfirm={confirmNav}
-            onCancel={() => setPendingNav(null)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

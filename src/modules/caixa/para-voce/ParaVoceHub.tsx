@@ -23,6 +23,12 @@ export default function ParaVoceHub() {
       disabled: false,
     },
     {
+      title: 'Pagar Conta',
+      desc: 'Contas e boletos bancários.',
+      onClick: () => navigate('/caixa/para-voce/pagar-conta'),
+      disabled: false,
+    },
+    {
       title: 'Cartão de Crédito',
       desc: 'Solicite seu cartão Caixa.',
       onClick: () => {},
@@ -43,12 +49,6 @@ export default function ParaVoceHub() {
     {
       title: 'Abrir Conta',
       desc: 'Conta corrente ou poupança Caixa.',
-      onClick: () => {},
-      disabled: true,
-    },
-    {
-      title: 'Caixa Tem',
-      desc: 'Banco digital da Caixa.',
       onClick: () => {},
       disabled: true,
     },

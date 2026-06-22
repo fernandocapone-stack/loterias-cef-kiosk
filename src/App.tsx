@@ -18,7 +18,6 @@ import LoteriasShell from './modules/caixa/loterias/LoteriasShell';
 import LotericaHome from './modules/caixa/loterias/LotericaHome';
 import ApostarTab from './modules/caixa/loterias/tabs/ApostarTab';
 import PagarTab from './modules/caixa/loterias/tabs/PagarTab';
-import RecarregarTab from './modules/caixa/loterias/tabs/RecarregarTab';
 import ResultadosTab from './modules/caixa/loterias/tabs/ResultadosTab';
 import CartPage from './modules/caixa/loterias/CartPage';
 import PickApostaType from './modules/caixa/loterias/flows/aposta/PickApostaType';
@@ -36,11 +35,6 @@ import PixScreen from './modules/checkout/PixScreen';
 import ProcessingScreen from './modules/checkout/ProcessingScreen';
 import SuccessScreen from './modules/checkout/SuccessScreen';
 import ErrorScreen from './modules/checkout/ErrorScreen';
-import ConvenienciaScreen from './modules/loja/ConvenienciaScreen';
-import CategoriasScreen from './modules/loja/CategoriasScreen';
-import CategoriaExpandidaScreen from './modules/loja/CategoriaExpandidaScreen';
-import LojaCarrinhoScreen from './modules/loja/LojaCarrinhoScreen';
-import EscanearProdutoScreen from './modules/loja/EscanearProdutoScreen';
 
 export default function App() {
   return (
@@ -50,17 +44,14 @@ export default function App() {
           {/* ── Home / Module choice ── */}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/escolha" element={<ModuleChoiceScreen />} />
-          {/* ── Loja de Conveniência ── */}
-          <Route path="/loja" element={<ConvenienciaScreen />} />
-          <Route path="/loja/categorias" element={<CategoriasScreen />} />
-          <Route path="/loja/categorias/:id" element={<CategoriaExpandidaScreen />} />
-          <Route path="/loja/carrinho" element={<LojaCarrinhoScreen />} />
-          <Route path="/loja/escanear" element={<EscanearProdutoScreen />} />
 
           {/* ── Caixa hub ── */}
           <Route path="/caixa" element={<CaixaHub />} />
           <Route path="/caixa/outros" element={<ComingSoon />} />
           <Route path="/caixa/para-voce" element={<ParaVoceHub />} />
+
+          {/* ── Pagar Conta — entrada via Para Você ── */}
+          <Route path="/caixa/para-voce/pagar-conta" element={<PagarTab />} />
 
           {/* ── Crédito Pessoal — shell + 7 sub-telas ── */}
           <Route path="/caixa/credito" element={<CreditoShell />}>
@@ -76,16 +67,9 @@ export default function App() {
 
           {/* ── Lotéricas shell (thin wrapper) ── */}
           <Route path="/caixa/loterias" element={<LoteriasShell />}>
-            {/* Entry: 4-tile hub */}
             <Route index element={<LotericaHome />} />
-
-            {/* Tabs */}
             <Route path="apostar" element={<ApostarTab />} />
-            <Route path="pagar" element={<PagarTab />} />
-            <Route path="recarregar" element={<RecarregarTab />} />
             <Route path="resultados" element={<ResultadosTab />} />
-
-            {/* Cart (full-page, replaces CartDrawer) */}
             <Route path="carrinho" element={<CartPage />} />
           </Route>
 
