@@ -66,23 +66,23 @@ export default function ResultadosTab() {
               className="text-left flex flex-col bg-white shrink-0"
               style={{
                 width: 'calc((100% - 4 * 24px) / 5)',
-                padding: '40px 32px',
-                gap: 40,
+                padding: '32px 24px',
+                gap: 32,
                 boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.09)',
                 borderRadius: 8,
               }}
             >
-              <LotteryLogo modalidade={mod} size={64} />
+              <LotteryLogo modalidade={mod} size={56} />
 
-              <div className="flex flex-col" style={{ gap: 16, flex: 1 }}>
-                <div className="font-semibold leading-tight" style={{ fontSize: 32, color: mod.cor, fontWeight: 600 }}>
+              <div className="flex flex-col" style={{ gap: 12, flex: 1 }}>
+                <div className="font-semibold leading-tight" style={{ fontSize: 28, color: mod.cor, fontWeight: 600 }}>
                   {mod.nome}
                 </div>
                 <div className="flex flex-col" style={{ gap: 0 }}>
-                  <span style={{ fontSize: 18, lineHeight: '150%', color: '#6B7280', fontWeight: 400 }}>
+                  <span style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', fontWeight: 400 }}>
                     Concurso {mod.concursoAtual}
                   </span>
-                  <span style={{ fontSize: 18, lineHeight: '150%', color: '#6B7280', fontWeight: 400 }}>
+                  <span style={{ fontSize: 16, lineHeight: '150%', color: '#6B7280', fontWeight: 400 }}>
                     {mod.proximoSorteio}
                   </span>
                 </div>
@@ -91,11 +91,11 @@ export default function ResultadosTab() {
               <div
                 className="self-start font-bold"
                 style={{
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: 700,
                   color: mod.cor,
                   backgroundColor: `${mod.cor}33`,
-                  padding: '4px 16px',
+                  padding: '4px 14px',
                   borderRadius: 8,
                   whiteSpace: 'nowrap',
                 }}
